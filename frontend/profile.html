@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>My Profile</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="index.html">Logout</a>
+    </nav>
+  </header>
+  <main>
+    <section id="profile-info">
+      <h2>Personal Information</h2>
+      <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+      <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Loading...</span></p>
+      <p><strong>Preferences:</strong> <span id="preferences">Loading...</span></p>
+      <p><strong>Availability:</strong> <span id="availability">Loading...</span></p>
+      <button id="edit-profile-btn">Edit Profile</button>
+    </section>
+    <section id="edit-profile" style="display: none;">
+      <h2>Edit Profile</h2>
+      <form id="edit-profile-form">
+        <label for="new-goals">Fitness Goals:</label>
+        <input type="text" id="new-goals">
+        <label for="new-preferences">Workout Preferences:</label>
+        <input type="text" id="new-preferences">
+        <label for="new-availability">Availability:</label>
+        <input type="text" id="new-availability">
+        <button type="submit">Save Changes</button>
+      </form>
+    </section>
+  </main>
+  <script src="profile.js"></script>
+</body>
+</html>
+
