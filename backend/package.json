@@ -1,9 +1,9 @@
 {
   "name": "fitknight",
   "version": "1.0.0",
-  "main": "server.js", // Update to your actual server file name
+  "main": "server.js", 
   "scripts": {
-    "start": "node server.js", // Add a start script to run the backend
+    "start": "node src/server.js", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,6 +29,6 @@
     "socket.io": "^4.8.1"
   },
   "engines": {
-    "node": ">=16.0.0" // Ensure Render uses a valid Node.js version
+    "node": ">=16.0.0" 
   }
 }
