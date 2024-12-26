@@ -16,9 +16,9 @@ mongoose
     .catch((err) => console.error("MongoDB connection error:", err));
 
 // Importing routes
-const authRoutes = require("./routes/auth");
-const buddiesRoutes = require("./routes/buddies");
-const groupsRoutes = require("./routes/groups");
+const authRoutes = require("C:\Users\ANSHU\OneDrive\Documents\FitKnight\backend\routes\auth.js");
+const buddiesRoutes = require("C:\Users\ANSHU\OneDrive\Documents\FitKnight\backend\routes\buddies.js");
+const groupsRoutes = require("C:\Users\ANSHU\OneDrive\Documents\FitKnight\backend\routes\groups.js");
 
 // Using routes
 app.use("/auth", authRoutes);
