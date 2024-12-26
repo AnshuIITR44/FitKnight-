@@ -16,9 +16,9 @@ mongoose
     .catch((err) => console.error("MongoDB connection error:", err));
 
 // Importing routes (relative paths)
-const authRoutes = require("./routes/auth");
-const buddiesRoutes = require("./routes/buddies");
-const groupsRoutes = require("./routes/groups");
+const authRoutes = require("./auth");
+const buddiesRoutes = require("./buddies");
+const groupsRoutes = require("./groups");
 
 // Using routes
 app.use("/auth", authRoutes);
