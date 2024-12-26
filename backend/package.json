@@ -1,13 +1,14 @@
 {
   "name": "fitknight",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js", // Update to your actual server file name
   "scripts": {
+    "start": "node server.js", // Add a start script to run the backend
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnshuIITR44/FitKnight.git"
+    "url": "git+https://github.com/AnshuIITR44/FitKnight-.git"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +27,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.2",
     "socket.io": "^4.8.1"
+  },
+  "engines": {
+    "node": ">=16.0.0" // Ensure Render uses a valid Node.js version
   }
 }
