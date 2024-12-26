@@ -15,7 +15,7 @@ mongoose
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("MongoDB connection error:", err));
 
-// Importing routes
+// Importing routes (relative paths)
 const authRoutes = require("./routes/auth");
 const buddiesRoutes = require("./routes/buddies");
 const groupsRoutes = require("./routes/groups");

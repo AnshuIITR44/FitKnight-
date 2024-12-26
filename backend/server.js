@@ -15,10 +15,10 @@ mongoose
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.error("MongoDB connection error:", err));
 
-// Importing routes
-const authRoutes = require("C:\Users\ANSHU\OneDrive\Documents\FitKnight\backend\routes\auth.js");
-const buddiesRoutes = require("C:\Users\ANSHU\OneDrive\Documents\FitKnight\backend\routes\buddies.js");
-const groupsRoutes = require("C:\Users\ANSHU\OneDrive\Documents\FitKnight\backend\routes\groups.js");
+// Importing routes (relative paths)
+const authRoutes = require("./routes/auth");
+const buddiesRoutes = require("./routes/buddies");
+const groupsRoutes = require("./routes/groups");
 
 // Using routes
 app.use("/auth", authRoutes);
