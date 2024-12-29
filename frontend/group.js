@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const groupId = "GROUP_ID_HERE"; // Replace with the actual group ID.
   
     // Fetch group details
-    const response = await fetch(`http://localhost:3000/groups/${groupId}`);
+    const response = await fetch(`https://fitknight-01ae.onrender.com/groups/${groupId}`);
     const group = await response.json();
   
     document.getElementById("group-name").textContent = group.name;
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Join group
     document.getElementById("join-group-btn").addEventListener("click", async () => {
       const userId = "USER_ID_HERE"; // Replace with logged-in user ID.
-      const joinResponse = await fetch("http://localhost:3000/groups/join", {
+      const joinResponse = await fetch("https://fitknight-01ae.onrender.com/groups/join", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ groupId, userId }),
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   
     // Chat functionality (using WebSocket)
-    const socket = io("http://localhost:3000");
+    const socket = io("https://fitknight-01ae.onrender.com"); // Update WebSocket URL to backend URL
     const chatBox = document.getElementById("chat-box");
   
     socket.on("chat message", (msg) => {
@@ -46,5 +46,4 @@ document.addEventListener("DOMContentLoaded", async () => {
       socket.emit("chat message", chatInput.value);
       chatInput.value = "";
     });
-  });
-  
+});
