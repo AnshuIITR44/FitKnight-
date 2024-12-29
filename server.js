@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB connection using the .env file for the connection string
-mongoose.connect("mongodb+srv://anshumalaiyaiitr:AnshuIITR%40446@cluster0.i5kz9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", { connectTimeoutMS: 30000 })
+mongoose.connect("mongodb+srv://anshumalaiyaiitr:AnshuIITR%40446@cluster0.i5kz9.mongodb.net/FitKnight?retryWrites=true&w=majority&appName=Cluster0", { connectTimeoutMS: 30000 })
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
