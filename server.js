@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const express = require("express");
+const path = require("path");
+
 
 dotenv.config(); // Load environment variables
 
@@ -27,6 +30,9 @@ app.use("/buddies", buddiesRoutes);
 app.use("/groups", groupsRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes); 
+
+// Serve static files from the "uploads" directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Handle 404 errors for undefined routes
 app.use((req, res, next) => {
