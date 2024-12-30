@@ -4,30 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div>
+  <div class="container">
     <h2>Personal Information</h2>
-    <p><strong>Username:</strong> <span id="username"></span></p>
-    <p><strong>Fitness Goals:</strong> <span id="fitness-goals"></span></p>
-    <p><strong>Preferences:</strong> <span id="preferences"></span></p>
-    <p><strong>Availability:</strong> <span id="availability"></span></p>
-    <button id="edit-profile-button">Edit Profile</button>
+    <p><strong>Username:</strong> <span id="username">Not set</span></p>
+    <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
+    <p><strong>Preferences:</strong> <span id="preferences">Not set</span></p>
+    <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
+    <button id="edit-profile">Edit Profile</button>
   </div>
 
-  <div id="edit-profile-form-container" style="display: none;">
+  <div id="edit-profile-form" class="hidden">
     <h2>Edit Profile</h2>
-    <form id="edit-profile-form">
+    <form>
       <label for="new-goals">Fitness Goals:</label>
-      <input type="text" id="new-goals" required />
-      <br />
+      <input type="text" id="new-goals" placeholder="Enter fitness goals">
+      <br>
       <label for="new-preferences">Workout Preferences:</label>
-      <input type="text" id="new-preferences" required />
-      <br />
+      <input type="text" id="new-preferences" placeholder="Enter preferences">
+      <br>
       <label for="new-availability">Availability:</label>
-      <input type="text" id="new-availability" required />
-      <br />
-      <button type="submit">Save Changes</button>
+      <input type="text" id="new-availability" placeholder="Enter availability">
+      <br>
+      <button type="button" id="save-profile">Save Changes</button>
     </form>
   </div>
 
