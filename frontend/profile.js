@@ -7,7 +7,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Fetch profile data
+  const profileView = document.getElementById("profile-view");
+  const profileEdit = document.getElementById("profile-edit");
+
+  // Fetch profile
   try {
     const response = await fetch("https://fitknight-01ae.onrender.com/buddies/profile", {
       headers: { Authorization: `Bearer ${token}` },
@@ -19,45 +22,40 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const user = await response.json();
 
-    // Populate profile fields
     document.getElementById("profile-picture").src = user.profilePicture || "default-profile.png";
     document.getElementById("name").textContent = user.name || "Not set";
     document.getElementById("about").textContent = user.about || "Not set";
     document.getElementById("fitness-goals").textContent = user.fitnessGoals || "Not set";
-
-    // Populate fitness history
-    const historyList = document.getElementById("history-list");
-    historyList.innerHTML = ""; // Clear loading text
-    user.fitnessHistory.forEach((item) => {
-      const li = document.createElement("li");
-      li.textContent = item;
-      historyList.appendChild(li);
-    });
-
-    // Populate contact details
     document.getElementById("phone").textContent = user.privacySettings ? user.phone : "Hidden";
     document.getElementById("email").textContent = user.privacySettings ? user.email : "Hidden";
     document.getElementById("privacy-settings").checked = user.privacySettings;
   } catch (error) {
-    console.error("Error loading profile:", error);
+    console.error("Error fetching profile:", error);
     alert("Failed to load profile.");
   }
 
-  // Edit profile logic
+  // Edit profile
   document.getElementById("edit-profile-btn").addEventListener("click", () => {
-    document.getElementById("edit-profile-form").style.display = "block";
-    document.getElementById("new-name").value = document.getElementById("name").textContent;
-    document.getElementById("new-about").value = document.getElementById("about").textContent;
-    document.getElementById("new-fitness-goals").value = document.getElementById("fitness-goals").textContent;
+    profileView.classList.add("hidden");
+    profileEdit.classList.remove("hidden");
+
+    document.getElementById("edit-name").value = document.getElementById("name").textContent;
+    document.getElementById("edit-about").value = document.getElementById("about").textContent;
+    document.getElementById("edit-goals").value = document.getElementById("fitness-goals").textContent;
+  });
+
+  document.getElementById("cancel-edit-btn").addEventListener("click", () => {
+    profileView.classList.remove("hidden");
+    profileEdit.classList.add("hidden");
   });
 
   document.getElementById("save-profile-btn").addEventListener("click", async () => {
-    const updatedName = document.getElementById("new-name").value;
-    const updatedAbout = document.getElementById("new-about").value;
-    const updatedFitnessGoals = document.getElementById("new-fitness-goals").value;
+    const updatedName = document.getElementById("edit-name").value;
+    const updatedAbout = document.getElementById("edit-about").value;
+    const updatedGoals = document.getElementById("edit-goals").value;
 
     try {
-      const updateResponse = await fetch("https://fitknight-01ae.onrender.com/buddies/profile", {
+      const response = await fetch("https://fitknight-01ae.onrender.com/buddies/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -66,28 +64,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         body: JSON.stringify({
           name: updatedName,
           about: updatedAbout,
-          fitnessGoals: updatedFitnessGoals,
+          fitnessGoals: updatedGoals,
         }),
       });
 
-      const updateData = await updateResponse.json();
-
-      if (updateData.success) {
-        alert("Profile updated successfully!");
-        window.location.reload();
-      } else {
-        alert("Failed to update profile.");
+      if (!response.ok) {
+        throw new Error("Failed to save profile.");
       }
+
+      alert("Profile updated successfully!");
+      window.location.reload();
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile.");
+      console.error("Error saving profile:", error);
+      alert("Failed to save profile.");
     }
   });
 
-  // Privacy settings toggle
+  // Privacy settings
   document.getElementById("privacy-settings").addEventListener("change", async (event) => {
-    const privacySettings = event.target.checked;
-
     try {
       const privacyResponse = await fetch("https://fitknight-01ae.onrender.com/buddies/privacy", {
         method: "PUT",
@@ -95,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ privacySettings }),
+        body: JSON.stringify({ privacySettings: event.target.checked }),
       });
 
       if (!privacyResponse.ok) {
