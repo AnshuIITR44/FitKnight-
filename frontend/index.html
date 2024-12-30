@@ -1,38 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FitKnight - Login & Signup</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <h1>FitKnight</h1>
-    <p>Find your fitness buddy today!</p>
-  </header>
-  <main>
-    <section>
-      <h2>Login</h2>
-      <form id="login-form">
-        <input type="text" id="login-username" placeholder="Username" required>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button type="submit">Login</button>
-      </form>
-    </section>
-    <section>
-      <h2>Signup</h2>
-      <form id="signup-form">
-        <input type="text" id="signup-username" placeholder="Username" required>
-        <input type="password" id="signup-password" placeholder="Password" required>
-        <select id="signup-role">
-          <option value="buddy">Find a Buddy</option>
-          <option value="organizer">Create a Group</option>
-        </select>
-        <button type="submit">Sign Up</button>
-      </form>
-    </section>
-  </main>
-  <script src="script.js"></script>
-</body>
-</html>
+<section>
+  <h2>Signup</h2>
+  <form id="signup-form">
+    <input type="text" id="signup-username" placeholder="Username" required>
+    <input type="password" id="signup-password" placeholder="Password" required>
+    <select id="signup-role" required>
+      <option value="buddy">Find a Buddy</option>
+      <option value="organizer">Create a Group</option>
+    </select>
+    <div id="group-fields" style="display: none;">
+      <input type="text" id="group-name" placeholder="Group Name">
+      <input type="text" id="activity-type" placeholder="Activity Type">
+      <input type="text" id="location" placeholder="Location">
+      <input type="text" id="schedule" placeholder="Schedule">
+    </div>
+    <button type="submit">Sign Up</button>
+  </form>
+</section>
+
+<script>
+  const roleSelect = document.getElementById("signup-role");
+  const groupFields = document.getElementById("group-fields");
+
+  roleSelect.addEventListener("change", () => {
+    if (roleSelect.value === "organizer") {
+      groupFields.style.display = "block";
+    } else {
+      groupFields.style.display = "none";
+    }
+  });
+</script>
