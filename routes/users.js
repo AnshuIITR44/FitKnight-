@@ -26,5 +26,25 @@ router.put("/", authenticateToken, async (req, res) => {
   }
 });
 
+router.get("/profile", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    res.status(200).json({
+      username: user.username,
+      profilePicture: user.profilePicture,
+      about: user.about,
+      fitnessGoals: user.fitnessGoals,
+    });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+});
+
 module.exports = router;
 
