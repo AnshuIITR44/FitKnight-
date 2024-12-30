@@ -1,28 +1,30 @@
 const express = require("express");
-const authenticateToken = require("../middleware/authenticateToken");
-const User = require("../models/user");
 const router = express.Router();
+const User = require("../models/user");
+const authenticateToken = require("../middleware/authenticateToken");
 
-// Fetch user profile
-router.get("/profile", authenticateToken, async (req, res) => {
+// Update user profile
+router.put("/", authenticateToken, async (req, res) => {
+  const userId = req.user.id; // Retrieve userId from the decoded token
+  const { fitnessGoals, workoutPreferences, availability } = req.body;
+
   try {
-    const user = await User.findById(req.user.id);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { fitnessGoals, workoutPreferences, availability },
+      { new: true } // Return the updated document
+    );
 
-    if (!user) {
-      return res.status(404).json({ error: "User not found." });
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: "User not found!" });
     }
 
-    res.json({
-      username: user.username,
-      fitnessGoals: user.fitnessGoals,
-      preferences: user.preferences,
-      availability: user.availability,
-    });
+    res.json({ success: true, message: "Profile updated successfully!", user: updatedUser });
   } catch (error) {
-    console.error("Error fetching profile:", error);
-    res.status(500).json({ error: "Internal server error." });
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
 
-
 module.exports = router;
+
