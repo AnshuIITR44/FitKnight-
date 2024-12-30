@@ -3,103 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buddy Profile</title>
+  <title>My Profile</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f9;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    h2, h3 {
-      color: #333;
-    }
-
-    .profile-picture {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 10px;
-    }
-
-    button {
-      display: block;
-      padding: 10px 15px;
-      margin-top: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
-    <h2>Buddy Profile</h2>
+    <h2>My Profile</h2>
     <div id="profile-view">
-      <img id="profile-picture" class="profile-picture" src="default-profile.png" alt="Profile Picture">
-      <p><b>Name:</b> <span id="name">Loading...</span></p>
+      <img id="profile-picture" class="profile-picture" src="default-profile.png" alt="Profile Picture" style="width:100px; height:100px; border-radius:50%; object-fit:cover;">
+      <label for="upload-profile-picture">Change Profile Picture:</label>
+      <input type="file" id="upload-profile-picture" accept="image/*">
+      <p><b>Username:</b> <span id="username">Loading...</span></p>
       <p><b>About Me:</b> <span id="about">Not set</span></p>
       <p><b>Fitness Goals:</b> <span id="fitness-goals">Not set</span></p>
-      <p><b>Phone:</b> <span id="phone">Hidden</span></p>
-      <p><b>Email:</b> <span id="email">Hidden</span></p>
-      <label>
-        <input type="checkbox" id="privacy-settings"> Allow others to view my contact details
-      </label>
       <button id="edit-profile-btn">Edit Profile</button>
     </div>
 
-    <div id="profile-edit" class="hidden">
+    <div id="profile-edit" style="display: none;">
       <h3>Edit Profile</h3>
-      <form id="edit-form">
-        <label for="edit-name">Name:</label>
-        <input type="text" id="edit-name">
+      <label for="edit-about">About Me:</label>
+      <textarea id="edit-about"></textarea>
 
-        <label for="edit-about">About Me:</label>
-        <textarea id="edit-about"></textarea>
+      <label for="edit-goals">Fitness Goals:</label>
+      <textarea id="edit-goals"></textarea>
 
-        <label for="edit-goals">Fitness Goals:</label>
-        <textarea id="edit-goals"></textarea>
-
-        <button type="button" id="save-profile-btn">Save Changes</button>
-        <button type="button" id="cancel-edit-btn">Cancel</button>
-      </form>
+      <button id="save-profile-btn">Save Changes</button>
+      <button id="cancel-edit-btn">Cancel</button>
     </div>
   </div>
-  <script src="profile.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("You are not logged in!");
+        window.location.href = "index.html";
+        return;
+      }
+
+      // Fetch profile details
+      const response = await fetch("https://fitknight-01ae.onrender.com/users/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const user = await response.json();
+      if (user) {
+        document.getElementById("profile-picture").src = user.profilePicture || "default-profile.png";
+        document.getElementById("username").textContent = user.username || "Unknown";
+        document.getElementById("about").textContent = user.about || "Not set";
+        document.getElementById("fitness-goals").textContent = user.fitnessGoals || "Not set";
+      }
+
+      // Save profile changes
+      document.getElementById("save-profile-btn").addEventListener("click", async () => {
+        const about = document.getElementById("edit-about").value;
+        const fitnessGoals = document.getElementById("edit-goals").value;
+
+        const response = await fetch("https://fitknight-01ae.onrender.com/users/profile", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ about, fitnessGoals }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert("Profile updated successfully!");
+          window.location.reload();
+        } else {
+          alert("Failed to update profile.");
+        }
+      });
+
+      // Upload profile picture
+      document.getElementById("upload-profile-picture").addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("profilePicture", file);
+
+        const response = await fetch("https://fitknight-01ae.onrender.com/users/upload-profile-picture", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData,
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert("Profile picture updated successfully!");
+          window.location.reload();
+        } else {
+          alert("Failed to update profile picture.");
+        }
+      });
+    });
+  </script>
 </body>
 </html>
