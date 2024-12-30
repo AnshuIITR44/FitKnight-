@@ -3,39 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile</title>
+  <title>Buddy Profile</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>My Profile</h1>
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="index.html">Logout</a>
-    </nav>
-  </header>
-  <main>
-    <section id="profile-info">
-      <h2>Personal Information</h2>
-      <p><strong>Username:</strong> <span id="username">Loading...</span></p>
-      <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Loading...</span></p>
-      <p><strong>Preferences:</strong> <span id="preferences">Loading...</span></p>
-      <p><strong>Availability:</strong> <span id="availability">Loading...</span></p>
-      <button id="edit-profile-btn">Edit Profile</button>
-    </section>
-    <section id="edit-profile" style="display: none;">
-      <h2>Edit Profile</h2>
-      <form id="edit-profile-form">
-        <label for="new-goals">Fitness Goals:</label>
-        <input type="text" id="new-goals">
-        <label for="new-preferences">Workout Preferences:</label>
-        <input type="text" id="new-preferences">
-        <label for="new-availability">Availability:</label>
-        <input type="text" id="new-availability">
-        <button type="submit">Save Changes</button>
+  <section>
+    <h2>My Buddy Profile</h2>
+    <div id="profile-info">
+      <img id="profile-picture" src="default-profile.png" alt="Profile Picture" />
+      <p><b>Name:</b> <span id="name">Loading...</span></p>
+      <p><b>About Me:</b> <span id="about">Not set</span></p>
+      <p><b>Fitness Goals:</b> <span id="fitness-goals">Not set</span></p>
+    </div>
+
+    <div id="fitness-history">
+      <h3>Fitness History</h3>
+      <ul id="history-list">
+        <li>Loading...</li>
+      </ul>
+    </div>
+
+    <div id="contact-details">
+      <h3>Contact Details</h3>
+      <p><b>Phone:</b> <span id="phone">Hidden</span></p>
+      <p><b>Email:</b> <span id="email">Hidden</span></p>
+      <label>
+        <input type="checkbox" id="privacy-settings" /> Allow others to view my contact details
+      </label>
+    </div>
+
+    <button id="edit-profile-btn">Edit Profile</button>
+    <div id="edit-profile-form" style="display: none;">
+      <h3>Edit Profile</h3>
+      <form>
+        <label for="new-name">Name:</label>
+        <input type="text" id="new-name">
+        <label for="new-about">About Me:</label>
+        <textarea id="new-about"></textarea>
+        <label for="new-fitness-goals">Fitness Goals:</label>
+        <textarea id="new-fitness-goals"></textarea>
+        <button type="button" id="save-profile-btn">Save Changes</button>
       </form>
-    </section>
-  </main>
+    </div>
+  </section>
   <script src="profile.js"></script>
 </body>
 </html>
