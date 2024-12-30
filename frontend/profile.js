@@ -1,8 +1,16 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const userId = "USER_ID_HERE"; // Replace with logged-in user ID retrieved from token or session.
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("You are not logged in!");
+    window.location.href = "index.html"; // Redirect to login page
+    return;
+  }
 
   // Fetch profile details
-  const response = await fetch(`https://fitknight-01ae.onrender.com/users/${userId}`);
+  const response = await fetch("https://fitknight-01ae.onrender.com/users", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   const user = await response.json();
 
   document.getElementById("username").textContent = user.username;
@@ -23,9 +31,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const newPreferences = document.getElementById("new-preferences").value;
     const newAvailability = document.getElementById("new-availability").value;
 
-    const updateResponse = await fetch(`https://fitknight-01ae.onrender.com/users/${userId}`, {
+    const updateResponse = await fetch("https://fitknight-01ae.onrender.com/users", {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Include the token in the request
+      },
       body: JSON.stringify({
         fitnessGoals: newGoals,
         workoutPreferences: newPreferences,
