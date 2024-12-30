@@ -18,11 +18,15 @@ mongoose.connect("mongodb+srv://anshumalaiyaiitr:AnshuIITR%40446@cluster0.i5kz9.
 const buddiesRoutes = require("./routes/buddies");
 const groupsRoutes = require("./routes/groups");
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/users"); 
+
+
 
 // Use routes
 app.use("/buddies", buddiesRoutes);
 app.use("/groups", groupsRoutes);
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes); 
 
 // Handle 404 errors for undefined routes
 app.use((req, res, next) => {
