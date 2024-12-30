@@ -13,7 +13,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch profile data.");
+      const errorData = await response.json();
+      console.error("Error response from server:", errorData);
+      alert("Failed to load profile. " + (errorData.error || "Please try again."));
+      return;
     }
 
     const user = await response.json();
@@ -23,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("preferences").textContent = user.preferences || "Not set";
     document.getElementById("availability").textContent = user.availability || "Not set";
   } catch (error) {
-    console.error("Error loading profile:", error);
-    alert("Failed to load profile. Please try again.");
+    console.error("Network or parsing error:", error);
+    alert("Failed to load profile. Please check your connection and try again.");
   }
 });
