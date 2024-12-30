@@ -1,4 +1,3 @@
-// Login Form Submission
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const username = document.getElementById("login-username").value;
@@ -19,7 +18,6 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   }
 });
 
-// Signup Form Submission
 document.getElementById("signup-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const username = document.getElementById("signup-username").value;
@@ -35,7 +33,14 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   const data = await response.json();
   if (data.success) {
     alert(data.message);
-    window.location.href = "dashboard.html"; // Redirect to dashboard
+
+    if (role === "buddy") {
+      // Redirect to profile creation if role is "Find a Buddy"
+      window.location.href = "profile.html";
+    } else {
+      // Redirect to dashboard for other roles
+      window.location.href = "dashboard.html";
+    }
   } else {
     alert(data.message);
   }
