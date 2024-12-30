@@ -1,32 +1,14 @@
 const express = require("express");
-const router = express.Router();
+const authenticateToken = require("../middleware/authenticateToken");
 const Group = require("../models/group");
+const router = express.Router();
 
-// Create a Group
-router.post("/", async (req, res) => {
+router.get("/my-groups", authenticateToken, async (req, res) => {
   try {
-    const { name, members } = req.body;
-
-    if (!name) {
-      return res.status(400).json({ message: "Group name is required!" });
-    }
-
-    const newGroup = new Group({ name, members: members || [] });
-    await newGroup.save();
-    res.status(201).json({ message: "Group created successfully!", group: newGroup });
-  } catch (error) {
-    console.error("Error creating group:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-// Fetch Groups (unchanged)
-router.get("/", async (req, res) => {
-  try {
-    const groups = await Group.find();
+    const groups = await Group.find({ members: req.user.id });
     res.status(200).json(groups);
   } catch (error) {
-    console.error("Error fetching groups:", error);
+    console.error("Error fetching organizer's groups:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
