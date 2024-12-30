@@ -7,23 +7,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Fetch profile details
-  const response = await fetch("https://fitknight-01ae.onrender.com/users", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  const user = await response.json();
+  // Function to fetch and display user profile
+  async function fetchProfile() {
+    const response = await fetch("https://fitknight-01ae.onrender.com/users", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  document.getElementById("username").textContent = user.username;
-  document.getElementById("fitness-goals").textContent = user.fitnessGoals || "Not set";
-  document.getElementById("preferences").textContent = user.workoutPreferences || "Not set";
-  document.getElementById("availability").textContent = user.availability || "Not set";
+    const user = await response.json();
 
-  // Edit profile
+    if (!user || user.error) {
+      alert("Failed to fetch user profile.");
+      return;
+    }
+
+    // Display the user's profile details
+    document.getElementById("username").textContent = user.username || "Not Available";
+    document.getElementById("fitness-goals").textContent = user.fitnessGoals || "Not set";
+    document.getElementById("preferences").textContent = user.workoutPreferences || "Not set";
+    document.getElementById("availability").textContent = user.availability || "Not set";
+  }
+
+  // Call fetchProfile to display the profile initially
+  await fetchProfile();
+
+  // Handle Edit Profile
   document.getElementById("edit-profile-btn").addEventListener("click", () => {
     document.getElementById("profile-info").style.display = "none";
     document.getElementById("edit-profile").style.display = "block";
   });
 
+  // Handle Profile Update
   document.getElementById("edit-profile-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -35,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Include the token in the request
+        Authorization: `Bearer ${token}`, // Include the token
       },
       body: JSON.stringify({
         fitnessGoals: newGoals,
@@ -45,9 +58,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     const data = await updateResponse.json();
+
     if (data.success) {
       alert("Profile updated successfully!");
-      window.location.reload();
+
+      // Fetch updated profile details and refresh the page display
+      await fetchProfile();
+
+      // Switch back to display mode
+      document.getElementById("profile-info").style.display = "block";
+      document.getElementById("edit-profile").style.display = "none";
     } else {
       alert("Failed to update profile: " + data.message);
     }
