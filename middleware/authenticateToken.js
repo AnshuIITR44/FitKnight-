@@ -8,7 +8,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ success: false, message: "Invalid Token" });
-    req.user = user; // Attach the decoded user info to the request
+    req.user = { id: user.id }; // Ensure the `id` field is set
     next();
   });
 }
