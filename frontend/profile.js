@@ -1,12 +1,12 @@
 const token = localStorage.getItem("token"); // Retrieve token from local storage
 
+// Fetch user profile
 async function fetchProfile() {
   const response = await fetch("https://fitknight-01ae.onrender.com/users", {
     headers: { Authorization: `Bearer ${token}` },
   });
 
   const user = await response.json();
-  console.log("Fetched Profile:", user); // Log fetched profile data
 
   if (!user || user.error) {
     alert("Failed to fetch user profile.");
@@ -14,21 +14,22 @@ async function fetchProfile() {
   }
 
   // Display user data on the profile page
-  document.getElementById("username").textContent = user.username || "Not Available";
+  document.getElementById("username").textContent = user.username || "Not set";
   document.getElementById("fitness-goals").textContent = user.fitnessGoals || "Not set";
   document.getElementById("preferences").textContent = user.workoutPreferences || "Not set";
   document.getElementById("availability").textContent = user.availability || "Not set";
 }
 
-// Handle profile update
-document.getElementById("edit-profile-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
+// Toggle edit profile form visibility
+document.getElementById("edit-profile").addEventListener("click", () => {
+  document.getElementById("edit-profile-form").classList.toggle("hidden");
+});
 
+// Save profile updates
+document.getElementById("save-profile").addEventListener("click", async () => {
   const newGoals = document.getElementById("new-goals").value;
   const newPreferences = document.getElementById("new-preferences").value;
   const newAvailability = document.getElementById("new-availability").value;
-
-  console.log("Submitting Profile Update:", { newGoals, newPreferences, newAvailability }); // Log submitted data
 
   const updateResponse = await fetch("https://fitknight-01ae.onrender.com/users", {
     method: "PUT",
@@ -44,15 +45,15 @@ document.getElementById("edit-profile-form").addEventListener("submit", async (e
   });
 
   const data = await updateResponse.json();
-  console.log("Update Response:", data); // Log API response
 
   if (data.success) {
     alert("Profile updated successfully!");
-    await fetchProfile(); // Fetch updated details after a successful update
+    document.getElementById("edit-profile-form").classList.add("hidden");
+    fetchProfile(); // Refresh profile data
   } else {
     alert("Failed to update profile: " + data.message);
   }
 });
 
-// Fetch and display profile details on page load
+// Fetch profile data on page load
 fetchProfile();
