@@ -4,20 +4,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const router = express.Router();
 
-// Signup Route
-router.post("/signup", async (req, res) => {
-  try {
-    const { username, password, role } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword, role });
-    await newUser.save();
-    res.status(201).json({ success: true, message: "User signed up successfully!" });
-  } catch (error) {
-    console.error("Signup error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-});
-
 // Login Route
 router.post("/login", async (req, res) => {
   try {
@@ -32,6 +18,26 @@ router.post("/login", async (req, res) => {
     res.json({ success: true, message: "Login successful!", token });
   } catch (error) {
     console.error("Login error:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+// Signup Route
+router.post("/signup", async (req, res) => {
+  try {
+    const { username, password, role } = req.body;
+
+    if (!["buddy", "organizer"].includes(role)) {
+      return res.status(400).json({ success: false, message: "Invalid role provided!" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword, role });
+
+    await newUser.save();
+    res.status(201).json({ success: true, message: "User signed up successfully!" });
+  } catch (error) {
+    console.error("Signup error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
