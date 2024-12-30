@@ -2,10 +2,16 @@ const express = require("express");
 const router = express.Router();
 const Group = require("../models/group");
 
+// Create a Group
 router.post("/", async (req, res) => {
   try {
     const { name, members } = req.body;
-    const newGroup = new Group({ name, members });
+
+    if (!name) {
+      return res.status(400).json({ message: "Group name is required!" });
+    }
+
+    const newGroup = new Group({ name, members: members || [] });
     await newGroup.save();
     res.status(201).json({ message: "Group created successfully!", group: newGroup });
   } catch (error) {
@@ -14,6 +20,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Fetch Groups (unchanged)
 router.get("/", async (req, res) => {
   try {
     const groups = await Group.find();
