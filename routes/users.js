@@ -1,30 +1,49 @@
 const express = require("express");
-const router = express.Router();
-const User = require("../models/user");
 const authenticateToken = require("../middleware/authenticateToken");
+const User = require("../models/user");
+const router = express.Router();
+
+// Get user profile
+router.get("/profile", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.json({
+      username: user.username,
+      fitnessGoals: user.fitnessGoals,
+      preferences: user.preferences,
+      availability: user.availability,
+    });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
 
 // Update user profile
-router.put("/", authenticateToken, async (req, res) => {
-  const userId = req.user.id; // Retrieve userId from the decoded token
-  const { fitnessGoals, workoutPreferences, availability } = req.body;
-
+router.put("/profile", authenticateToken, async (req, res) => {
   try {
+    const { fitnessGoals, preferences, availability } = req.body;
+
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { fitnessGoals, workoutPreferences, availability },
-      { new: true } // Return the updated document
+      req.user.id,
+      { fitnessGoals, preferences, availability },
+      { new: true }
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ success: false, message: "User not found!" });
+      return res.status(404).json({ success: false, message: "User not found." });
     }
 
-    res.json({ success: true, message: "Profile updated successfully!", user: updatedUser });
+    res.json({ success: true, message: "Profile updated successfully!" });
   } catch (error) {
-    console.error("Error updating user profile:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.error("Error updating profile:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
 
 module.exports = router;
-
