@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
+const User = require("../models/User");
+const authenticateToken = require("../middleware/authenticateToken");
 
 // Update user profile
-router.put("/:id", async (req, res) => {
-  const userId = req.params.id;
+router.put("/", authenticateToken, async (req, res) => {
+  const userId = req.user.id; // Retrieve userId from the decoded token
   const { fitnessGoals, workoutPreferences, availability } = req.body;
 
   try {
