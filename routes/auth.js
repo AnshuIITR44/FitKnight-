@@ -8,6 +8,12 @@ const router = express.Router();
 router.post("/signup", async (req, res) => {
   try {
     const { username, password, role } = req.body;
+
+    // Validate role
+    if (!["buddy", "organizer"].includes(role)) {
+      return res.status(400).json({ success: false, message: "Invalid role provided!" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, password: hashedPassword, role });
     await newUser.save();
@@ -18,7 +24,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// Login Route
+// Login Route (unchanged)
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
