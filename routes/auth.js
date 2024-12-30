@@ -23,23 +23,43 @@ router.post("/login", async (req, res) => {
 });
 
 // Signup Route
-router.post("/signup", async (req, res) => {
+const multer = require("multer");
+const path = require("path");
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save uploaded files to "uploads/" directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+const upload = multer({ storage });
+
+router.post("/signup", upload.single("profilePicture"), async (req, res) => {
   try {
     const { username, password, role } = req.body;
 
-    if (!["buddy", "organizer"].includes(role)) {
-      return res.status(400).json({ success: false, message: "Invalid role provided!" });
+    if (!username || !password || !role) {
+      return res.status(400).json({ success: false, message: "All fields are required." });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword, role });
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      role,
+      profilePicture: req.file ? `/uploads/${req.file.filename}` : "",
+    });
 
     await newUser.save();
     res.status(201).json({ success: true, message: "User signed up successfully!" });
   } catch (error) {
     console.error("Signup error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
+
 
 module.exports = router;
