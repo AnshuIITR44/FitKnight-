@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
 const authenticateToken = require("../middleware/authenticateToken");
+const User = require("../models/user");
 
 // Get user profile
 router.get("/", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
+
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found!" });
+      return res.status(404).json({ success: false, error: "User not found" });
     }
 
     res.json({
@@ -18,21 +19,20 @@ router.get("/", authenticateToken, async (req, res) => {
       availability: user.availability,
     });
   } catch (error) {
-    console.error("Error fetching user profile:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    console.error("Error fetching user:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
   }
 });
 
 // Update user profile
 router.put("/", authenticateToken, async (req, res) => {
-  const userId = req.user.id; // Retrieved from token
   const { fitnessGoals, workoutPreferences, availability } = req.body;
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
+      req.user.id,
       { fitnessGoals, workoutPreferences, availability },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     if (!updatedUser) {
