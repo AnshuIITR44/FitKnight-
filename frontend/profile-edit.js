@@ -8,9 +8,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (response.ok) {
       const user = await response.json();
+
+      // Pre-fill the form with existing data
       document.getElementById("fitness-goals").value = user.fitnessGoals || "";
       document.getElementById("workout-preferences").value = user.workoutPreferences || "";
       document.getElementById("availability").value = user.availability || "";
+
+      document.getElementById("phone").value = user.contactDetails?.phone || "";
+      document.getElementById("email").value = user.contactDetails?.email || "";
+      document.getElementById("show-phone").checked = user.contactDetails?.showPhone || false;
+      document.getElementById("show-email").checked = user.contactDetails?.showEmail || false;
     } else {
       alert("Failed to fetch profile details for editing.");
     }
@@ -26,6 +33,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       fitnessGoals: document.getElementById("fitness-goals").value,
       workoutPreferences: document.getElementById("workout-preferences").value,
       availability: document.getElementById("availability").value,
+      contactDetails: {
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        showPhone: document.getElementById("show-phone").checked,
+        showEmail: document.getElementById("show-email").checked,
+      },
     };
 
     try {
@@ -41,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const updateData = await updateResponse.json();
       if (updateData.success) {
         alert("Profile updated successfully!");
-        window.location.href = "profile.html"; // Reload profile page
+        window.location.href = "profile.html"; // Redirect to profile page
       } else {
         alert("Failed to update profile: " + updateData.message);
       }
