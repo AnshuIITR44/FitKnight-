@@ -1,21 +1,24 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
 
-  // Fetch current profile details for editing
-  const response = await fetch("https://fitknight-01ae.onrender.com/users", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    const response = await fetch("https://fitknight-01ae.onrender.com/users", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  if (response.ok) {
-    const user = await response.json();
-    document.getElementById("fitness-goals").value = user.fitnessGoals || "";
-    document.getElementById("workout-preferences").value = user.workoutPreferences || "";
-    document.getElementById("availability").value = user.availability || "";
-  } else {
-    alert("Failed to fetch profile details.");
+    if (response.ok) {
+      const user = await response.json();
+      document.getElementById("fitness-goals").value = user.fitnessGoals || "";
+      document.getElementById("workout-preferences").value = user.workoutPreferences || "";
+      document.getElementById("availability").value = user.availability || "";
+    } else {
+      alert("Failed to fetch profile details for editing.");
+    }
+  } catch (error) {
+    console.error("Error fetching profile details:", error);
+    alert("An error occurred while fetching profile details.");
   }
 
-  // Handle profile edit form submission
   document.getElementById("profile-edit-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -25,23 +28,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       availability: document.getElementById("availability").value,
     };
 
-    console.log("Updated Profile Data:", updatedProfile); // Debug data sent to backend
+    try {
+      const updateResponse = await fetch("https://fitknight-01ae.onrender.com/users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedProfile),
+      });
 
-    const updateResponse = await fetch("https://fitknight-01ae.onrender.com/users", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(updatedProfile),
-    });
-
-    const updateData = await updateResponse.json();
-    if (updateData.success) {
-      alert("Profile updated successfully!");
-      window.location.href = "profile.html"; // Reload profile page
-    } else {
-      alert("Failed to update profile: " + updateData.message);
+      const updateData = await updateResponse.json();
+      if (updateData.success) {
+        alert("Profile updated successfully!");
+        window.location.href = "profile.html"; // Reload profile page
+      } else {
+        alert("Failed to update profile: " + updateData.message);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("An error occurred while updating the profile.");
     }
   });
 });
