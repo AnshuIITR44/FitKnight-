@@ -4,7 +4,7 @@ const User = require("../models/user");
 const authenticateToken = require("../middleware/authenticateToken");
 
 // Fetch user profile
-outer.get("/", authenticateToken, async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
