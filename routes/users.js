@@ -30,7 +30,7 @@ router.put("/", authenticateToken, async (req, res) => {
         workoutPreferences: workoutPreferences || undefined,
         availability: availability || undefined,
       },
-      { new: true, runValidators: true } // Return updated document and validate inputs
+      { new: true, runValidators: true }
     );
 
     if (!updatedUser) {
