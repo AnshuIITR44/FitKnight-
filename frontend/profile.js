@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!token) {
     alert("You are not logged in!");
-    window.location.href = "index.html";
+    window.location.href = "index.html"; // Redirect to login if token is missing
     return;
   }
 
@@ -15,17 +15,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (response.ok) {
       const user = await response.json();
 
-      // Profile Picture
+      // Update profile picture
       document.getElementById("profile-picture").src = `/uploads/${user.profilePicture}`;
+      
+      // Update other profile details
       document.getElementById("username").innerText = user.username || "Not set";
       document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
       document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
       document.getElementById("availability").innerText = user.availability || "Not set";
-
-      // Fitness History
       document.getElementById("fitness-history").innerText = user.fitnessHistory || "No activities logged yet";
 
-      // Contact Details with Visibility Logic
+      // Handle contact details visibility
       const phoneSection = document.getElementById("phone-section");
       const emailSection = document.getElementById("email-section");
 
