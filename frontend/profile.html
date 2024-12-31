@@ -6,12 +6,11 @@
   <title>FitKnight - Profile</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Inline styles specific to the profile page */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #121212; /* Black background */
-      color: #ffffff; /* White text */
+      background-color: #121212;
+      color: #ffffff;
     }
 
     header {
@@ -24,53 +23,73 @@
     header h1 {
       margin: 0;
       font-size: 2.5rem;
-      color: #ff9800; /* Highlight color for the FitKnight brand */
+      color: #ff9800;
     }
 
-    #profile {
-      text-align: center;
-      margin: 20px auto;
-      max-width: 600px;
-      background: #1e1e1e; /* Slightly lighter background for contrast */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      background-color: #1f1f1f;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      margin: 15px 0;
+      font-size: 1.2rem;
+    }
+
+    .sidebar a:hover {
+      color: #ff9800;
+    }
+
+    .main-content {
+      margin-left: 270px;
+      padding: 20px;
+    }
+
+    .profile-section {
+      max-width: 800px;
+      margin: auto;
+      background-color: #1e1e1e;
       border-radius: 10px;
       padding: 20px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 
-    #profile img {
+    .profile-section img {
+      display: block;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 20px auto;
       border: 3px solid #ff9800;
-      margin-bottom: 15px;
-      border-radius: 50%; /* Circle-shaped profile picture */
     }
 
-    #profile p {
+    .profile-section p {
+      text-align: center;
+      font-size: 1.1rem;
       margin: 10px 0;
     }
 
     .btn {
+      display: inline-block;
       background-color: #ff9800;
       color: #121212;
-      border: none;
-      border-radius: 5px;
       padding: 10px 20px;
-      cursor: pointer;
+      border-radius: 5px;
       text-decoration: none;
-      display: inline-block;
+      font-size: 1rem;
       margin: 10px;
+      cursor: pointer;
     }
 
     .btn:hover {
       background-color: #e68900;
-    }
-
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: #1f1f1f;
-      color: #bbbbbb;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
     }
   </style>
 </head>
@@ -80,40 +99,23 @@
     <p>Your ultimate fitness companion</p>
   </header>
 
-  <div id="profile">
-    <!-- Profile Picture -->
-    <img id="profile-picture" src="default-profile.jpg" alt="Profile Picture" style="width: 150px; height: 150px;" />
-    
-    <!-- Username -->
-    <p><strong>Username:</strong> <span id="username">Loading...</span></p>
-    
-    <!-- Fitness Goals -->
-    <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
-    
-    <!-- Workout Preferences -->
-    <p><strong>Preferences:</strong> <span id="workout-preferences">Not set</span></p>
-    
-    <!-- Availability -->
-    <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
-    
-    <!-- Fitness History -->
-    <p><strong>Fitness History:</strong> <span id="fitness-history">Not available</span></p>
-    
-    <!-- Contact Details -->
-    <div id="contact-details">
-      <p id="phone-section">
-        <strong>Phone:</strong> <span id="phone">Hidden</span>
-      </p>
-      <p id="email-section">
-        <strong>Email:</strong> <span id="email">Hidden</span>
-      </p>
-    </div>
+  <div class="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="settings.html">Settings</a>
+    <a href="logout.html">Logout</a>
+  </div>
 
-    <!-- Profile Actions -->
-    <div id="profile-actions">
-      <a href="buddy-dashboard.html" class="btn">Dashboard</a>
-      <a href="index.html" class="btn">Logout</a>
-      <button id="edit-profile-btn" class="btn">Edit Profile</button>
+  <div class="main-content">
+    <div class="profile-section">
+      <img id="profile-picture" src="default-profile.jpg" alt="Profile Picture">
+      <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+      <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
+      <p><strong>Preferences:</strong> <span id="workout-preferences">Not set</span></p>
+      <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
+      <p><strong>Fitness History:</strong> <span id="fitness-history">Not available</span></p>
+      <p><strong>Phone:</strong> <span id="phone">Hidden</span></p>
+      <p><strong>Email:</strong> <span id="email">Hidden</span></p>
+      <a href="profile-edit.html" class="btn">Edit Profile</a>
     </div>
   </div>
 
@@ -121,45 +123,6 @@
     <p>&copy; 2024 FitKnight. All rights reserved.</p>
   </footer>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const token = localStorage.getItem("token");
-
-      try {
-        const response = await fetch("https://fitknight-01ae.onrender.com/users", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (response.ok) {
-          const user = await response.json();
-
-          // Profile Picture (Ensure backend serves 'uploads' folder)
-          document.getElementById("profile-picture").src = `/uploads/${user.profilePicture}`;
-          
-          // Username and other details
-          document.getElementById("username").innerText = user.username || "Not set";
-          document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
-          document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
-          document.getElementById("availability").innerText = user.availability || "Not set";
-          
-          // Fitness History
-          document.getElementById("fitness-history").innerText = user.fitnessHistory || "No activities logged yet";
-          
-          // Contact Details
-          document.getElementById("phone").innerText = user.contactDetails?.phone || "Hidden";
-          document.getElementById("email").innerText = user.contactDetails?.email || "Hidden";
-        } else {
-          alert("Failed to fetch profile details.");
-        }
-      } catch (error) {
-        console.error("Error fetching profile details:", error);
-        alert("An error occurred while fetching profile details.");
-      }
-
-      document.getElementById("edit-profile-btn").addEventListener("click", () => {
-        window.location.href = "profile-edit.html";
-      });
-    });
-  </script>
+  <script src="profile.js"></script>
 </body>
 </html>
