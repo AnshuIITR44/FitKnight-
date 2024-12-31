@@ -17,6 +17,8 @@ router.get("/", authenticateToken, async (req, res) => {
       availability: user.availability || "Not set",
       role: user.role,
       roleDetails: user.roleDetails,
+      fitnessHistory: user.fitnessHistory || "No activities logged yet",
+      contactDetails: user.contactDetails,
     });
   } catch (error) {
     console.error("Error fetching user profile:", error);
@@ -27,7 +29,13 @@ router.get("/", authenticateToken, async (req, res) => {
 // Update User Profile
 router.put("/", authenticateToken, async (req, res) => {
   const userId = req.user.id;
-  const { fitnessGoals, workoutPreferences, availability } = req.body;
+  const {
+    fitnessGoals,
+    workoutPreferences,
+    availability,
+    contactDetails,
+    fitnessHistory,
+  } = req.body;
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -36,6 +44,13 @@ router.put("/", authenticateToken, async (req, res) => {
         fitnessGoals: fitnessGoals || "Not set",
         workoutPreferences: workoutPreferences || "Not set",
         availability: availability || "Not set",
+        fitnessHistory: fitnessHistory || "No activities logged yet",
+        contactDetails: {
+          phone: contactDetails.phone || "",
+          email: contactDetails.email || "",
+          showPhone: contactDetails.showPhone || false,
+          showEmail: contactDetails.showEmail || false,
+        },
       },
       { new: true, runValidators: true }
     );
