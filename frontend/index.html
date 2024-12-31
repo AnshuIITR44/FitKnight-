@@ -5,6 +5,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FitKnight - Login & Signup</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Inline CSS for black theme */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #1f1f1f;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #ff6f61;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      color: #cfcfcf;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    section {
+      width: 350px;
+      background-color: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      margin: 0 10px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ff6f61;
+    }
+
+    form input,
+    form select,
+    form button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1em;
+    }
+
+    form input {
+      background-color: #2b2b2b;
+      color: #fff;
+    }
+
+    form select {
+      background-color: #2b2b2b;
+      color: #cfcfcf;
+    }
+
+    form button {
+      background-color: #ff6f61;
+      color: #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    form button:hover {
+      background-color: #e65a50;
+    }
+
+    a {
+      color: #ff6f61;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    p {
+      text-align: center;
+      font-size: 0.9em;
+      color: #cfcfcf;
+    }
+
+    #buddy-details {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+      }
+
+      section {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -33,7 +147,7 @@
           <option value="buddy">Find a Buddy</option>
           <option value="organizer">Create a Group</option>
         </select>
-        <div id="buddy-details" style="display: none;">
+        <div id="buddy-details">
           <input type="text" id="fitness-goals" placeholder="Fitness Goals">
           <input type="text" id="workout-preferences" placeholder="Workout Preferences">
           <input type="text" id="availability" placeholder="Availability">
@@ -45,6 +159,29 @@
       <p>Already have an account? <a href="#" id="show-login">Login</a></p>
     </section>
   </main>
-  <script src="script.js"></script>
+  <script>
+    // Add functionality for toggling sections
+    document.getElementById("show-signup").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("signup-section").style.display = "block";
+    });
+
+    document.getElementById("show-login").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("signup-section").style.display = "none";
+      document.getElementById("login-section").style.display = "block";
+    });
+
+    // Role-based visibility toggle
+    document.getElementById("signup-role").addEventListener("change", (e) => {
+      const buddyDetails = document.getElementById("buddy-details");
+      if (e.target.value === "buddy") {
+        buddyDetails.style.display = "block";
+      } else {
+        buddyDetails.style.display = "none";
+      }
+    });
+  </script>
 </body>
 </html>
