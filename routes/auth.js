@@ -24,11 +24,22 @@ router.post("/signup", upload.single("profilePicture"), async (req, res) => {
       password: hashedPassword,
       role,
       profilePicture,
-      roleDetails: JSON.parse(roleDetails),
+      roleDetails: JSON.parse(roleDetails || "{}"),
     });
 
     await newUser.save();
-    res.status(201).json({ success: true, message: "User signed up successfully!" });
+
+    // Automatically log the user in after signup
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "User signed up successfully!",
+      token,
+      role: newUser.role,
+    });
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
@@ -45,7 +56,10 @@ router.post("/login", async (req, res) => {
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) return res.status(401).json({ success: false, message: "Invalid password!" });
 
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
     res.json({ success: true, message: "Login successful!", token, role: user.role });
   } catch (error) {
     console.error("Login error:", error);
