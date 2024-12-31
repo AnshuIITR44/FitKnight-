@@ -3,42 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Profile</title>
 </head>
 <body>
-  <header>
-    <h1>My Profile</h1>
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="index.html">Logout</a>
-    </nav>
-  </header>
-  <main>
-    <section id="profile-info">
-      <h2>Personal Information</h2>
-      <p><strong>Username:</strong> <span id="username">Loading...</span></p>
-      <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Loading...</span></p>
-      <p><strong>Preferences:</strong> <span id="preferences">Loading...</span></p>
-      <p><strong>Availability:</strong> <span id="availability">Loading...</span></p>
-      <button id="edit-profile-btn">Edit Profile</button>
-    </section>
+  <h1>My Profile</h1>
+  <div id="profile">
+    <img id="profile-picture" src="" alt="Profile Picture" />
+    <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
+    <p><strong>Preferences:</strong> <span id="workout-preferences">Not set</span></p>
+    <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
+    <button id="edit-profile-btn">Edit Profile</button>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("token");
 
-    <section id="edit-profile" style="display: none;">
-      <h2>Edit Profile</h2>
-      <form id="profile-edit-form">
-        <label for="fitness-goals">Fitness Goals:</label>
-        <input type="text" id="fitness-goals">
-        <label for="workout-preferences">Workout Preferences:</label>
-        <input type="text" id="workout-preferences">
-        <label for="availability">Availability:</label>
-        <input type="text" id="availability">
-        <button type="submit">Save Changes</button>
-      </form>
-    </section>
-  </main>
-  <!-- Scripts -->
-  <script src="profile.js"></script>
-  <script src="profile-edit.js"></script>
+      try {
+        const response = await fetch("https://fitknight-01ae.onrender.com/users", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+          const user = await response.json();
+          document.getElementById("profile-picture").src = `uploads/${user.profilePicture}`;
+          document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
+          document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
+          document.getElementById("availability").innerText = user.availability || "Not set";
+        } else {
+          alert("Failed to fetch profile details.");
+        }
+      } catch (error) {
+        console.error("Error fetching profile details:", error);
+        alert("An error occurred while fetching profile details.");
+      }
+
+      document.getElementById("edit-profile-btn").addEventListener("click", () => {
+        window.location.href = "profile-edit.html";
+      });
+    });
+  </script>
 </body>
 </html>
