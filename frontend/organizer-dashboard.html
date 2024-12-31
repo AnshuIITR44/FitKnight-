@@ -3,33 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organizer Dashboard</title>
+  <title>FitKnight - Organizer Dashboard</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .dashboard {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .dashboard h2 {
+      color: #ff9800;
+      margin-bottom: 20px;
+    }
+
+    .group-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .group-card {
+      background: #2a2a2a;
+      border-radius: 10px;
+      padding: 20px;
+      color: #ffffff;
+      width: calc(33% - 20px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .group-card h3 {
+      color: #ff9800;
+    }
+
+    .group-card button {
+      background-color: #ff9800;
+      color: #121212;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .group-card button:hover {
+      background-color: #e68900;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Welcome, Organizer!</h1>
-    <nav>
-      <a href="profile.html">Profile</a>
-      <a href="index.html">Logout</a>
-    </nav>
+    <h1>FitKnight - Organizer Dashboard</h1>
   </header>
-  <main>
-    <section>
-      <h2>Your Groups</h2>
-      <div id="group-list"></div>
-    </section>
-    <section>
-      <h2>Create a New Group</h2>
-      <form id="create-group-form">
-        <input type="text" id="group-name" placeholder="Group Name" required>
-        <input type="text" id="activity-type" placeholder="Activity Type" required>
-        <input type="text" id="location" placeholder="Location" required>
-        <input type="text" id="schedule" placeholder="Schedule" required>
-        <button type="submit">Create Group</button>
-      </form>
-    </section>
+
+  <main class="dashboard">
+    <h2>Manage Your Groups</h2>
+    <div class="group-list" id="group-list">
+      <!-- Dynamic group cards will be inserted here -->
+    </div>
   </main>
+
+  <footer>
+    <p>&copy; 2024 FitKnight. All rights reserved.</p>
+  </footer>
+
   <script src="organizer-dashboard.js"></script>
 </body>
 </html>
