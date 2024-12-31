@@ -1,4 +1,3 @@
-// Toggle between login and signup forms
 document.getElementById("show-signup").addEventListener("click", (e) => {
   e.preventDefault();
   document.getElementById("login-section").style.display = "none";
@@ -11,14 +10,12 @@ document.getElementById("show-login").addEventListener("click", (e) => {
   document.getElementById("login-section").style.display = "block";
 });
 
-// Toggle role-specific details
 document.getElementById("signup-role").addEventListener("change", (e) => {
   const role = e.target.value;
   document.getElementById("buddy-details").style.display = role === "buddy" ? "block" : "none";
   document.getElementById("organizer-details").style.display = role === "organizer" ? "block" : "none";
 });
 
-// Login form submission
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const username = document.getElementById("login-username").value;
@@ -33,13 +30,13 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   const data = await response.json();
   if (data.success) {
     localStorage.setItem("token", data.token);
+    localStorage.setItem("role", data.role);
     window.location.href = data.role === "buddy" ? "buddy-dashboard.html" : "organizer-dashboard.html";
   } else {
     alert(data.message);
   }
 });
 
-// Signup form submission
 document.getElementById("signup-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
