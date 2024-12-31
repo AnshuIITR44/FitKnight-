@@ -6,10 +6,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  const user = await response.json();
-  document.getElementById("fitness-goals").value = user.fitnessGoals || "";
-  document.getElementById("workout-preferences").value = user.workoutPreferences || "";
-  document.getElementById("availability").value = user.availability || "";
+  if (response.ok) {
+    const user = await response.json();
+    document.getElementById("fitness-goals").value = user.fitnessGoals || "";
+    document.getElementById("workout-preferences").value = user.workoutPreferences || "";
+    document.getElementById("availability").value = user.availability || "";
+  } else {
+    alert("Failed to fetch profile details.");
+  }
 
   // Handle profile edit form submission
   document.getElementById("profile-edit-form").addEventListener("submit", async (e) => {
