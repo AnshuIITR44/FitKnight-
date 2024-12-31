@@ -9,10 +9,20 @@ router.put("/", authenticateToken, async (req, res) => {
   const { fitnessGoals, workoutPreferences, availability } = req.body;
 
   try {
+    // Validate inputs (optional)
+    if (!fitnessGoals && !workoutPreferences && !availability) {
+      return res.status(400).json({ success: false, message: "No updates provided." });
+    }
+
+    // Update the user's profile
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { fitnessGoals, workoutPreferences, availability },
-      { new: true } // Return the updated document
+      {
+        fitnessGoals: fitnessGoals || undefined,
+        workoutPreferences: workoutPreferences || undefined,
+        availability: availability || undefined,
+      },
+      { new: true, runValidators: true } // Return the updated document and apply validation
     );
 
     if (!updatedUser) {
