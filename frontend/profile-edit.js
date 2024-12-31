@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
 
-  // Fetch current profile details
   const response = await fetch("https://fitknight-01ae.onrender.com/users", {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -37,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const updateData = await updateResponse.json();
     if (updateData.success) {
       alert("Profile updated successfully!");
-      window.location.reload(); // Reload to fetch updated profile
+      window.location.href = "profile.html"; // Redirect to profile.html
     } else {
       alert("Failed to update profile: " + updateData.message);
     }
