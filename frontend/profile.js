@@ -3,29 +3,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!token) {
     alert("You are not logged in!");
-    window.location.href = "index.html";
+    window.location.href = "index.html"; // Redirect to login if token is missing
     return;
   }
 
-  // Fetch user profile
-  const response = await fetch("https://fitknight-01ae.onrender.com/users", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    // Fetch user details from the server
+    const response = await fetch("https://fitknight-01ae.onrender.com/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  if (response.ok) {
-    const user = await response.json();
-    console.log("Fetched User Data:", user); // Debug fetched user data
-    document.getElementById("username").textContent = user.username;
-    document.getElementById("fitness-goals").textContent = user.fitnessGoals || "Not set";
-    document.getElementById("preferences").textContent = user.workoutPreferences || "Not set";
-    document.getElementById("availability").textContent = user.availability || "Not set";
-  } else {
-    alert("Failed to fetch profile details.");
+    if (response.ok) {
+      const user = await response.json();
+
+      // Update the profile page with user data
+      document.getElementById("profile-picture").src = `uploads/${user.profilePicture}`;
+      document.getElementById("fitness-goals").innerText = user.roleDetails.fitnessGoals || "Not set";
+      document.getElementById("workout-preferences").innerText = user.roleDetails.workoutPreferences || "Not set";
+      document.getElementById("availability").innerText = user.roleDetails.availability || "Not set";
+
+    } else {
+      alert("Failed to fetch profile details. Please try again later.");
+    }
+  } catch (error) {
+    console.error("Error fetching profile details:", error);
+    alert("An error occurred while fetching profile details.");
   }
 
-  // Show edit form on button click
+  // Redirect to edit profile page when 'Edit Profile' button is clicked
   document.getElementById("edit-profile-btn").addEventListener("click", () => {
-    document.getElementById("profile-info").style.display = "none";
-    document.getElementById("edit-profile").style.display = "block";
+    window.location.href = "profile-edit.html";
   });
 });
