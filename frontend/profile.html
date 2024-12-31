@@ -9,6 +9,7 @@
   <h1>My Profile</h1>
   <div id="profile">
     <img id="profile-picture" src="" alt="Profile Picture" />
+    <p><strong>Username:</strong> <span id="username">Loading...</span></p> <!-- Added Username -->
     <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
     <p><strong>Preferences:</strong> <span id="workout-preferences">Not set</span></p>
     <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
@@ -33,6 +34,7 @@
         if (response.ok) {
           const user = await response.json();
           document.getElementById("profile-picture").src = `uploads/${user.profilePicture}`;
+          document.getElementById("username").innerText = user.username || "Not set"; // Set username
           document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
           document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
           document.getElementById("availability").innerText = user.availability || "Not set";
