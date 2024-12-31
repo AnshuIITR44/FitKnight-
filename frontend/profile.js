@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Update the profile page with user data
       document.getElementById("profile-picture").src = `uploads/${user.profilePicture}`;
-      document.getElementById("username").innerText = user.username || "Unknown User";
       document.getElementById("fitness-goals").innerText = user.roleDetails.fitnessGoals || "Not set";
       document.getElementById("workout-preferences").innerText = user.roleDetails.workoutPreferences || "Not set";
       document.getElementById("availability").innerText = user.roleDetails.availability || "Not set";
+
     } else {
       alert("Failed to fetch profile details. Please try again later.");
     }
