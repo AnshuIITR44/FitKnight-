@@ -12,8 +12,15 @@
     <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
     <p><strong>Preferences:</strong> <span id="workout-preferences">Not set</span></p>
     <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
+  </div>
+
+  <!-- Added Profile Actions Section -->
+  <div id="profile-actions">
+    <a href="dashboard.html" class="btn">Dashboard</a>
+    <a href="logout.html" class="btn">Logout</a>
     <button id="edit-profile-btn">Edit Profile</button>
   </div>
+
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       const token = localStorage.getItem("token");
