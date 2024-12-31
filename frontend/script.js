@@ -1,3 +1,27 @@
+// script.js
+
+// General script to handle navigation and other global functionalities
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutButton = document.getElementById("logout-button");
+
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.href = "index.html";
+    });
+  }
+
+  // Example: Highlight active link in navigation (if applicable)
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll("nav a");
+
+  navLinks.forEach((link) => {
+    if (link.getAttribute("href") === currentPath) {
+      link.classList.add("active");
+    }
+  });
+});
+
 // Toggle between login and signup sections
 document.getElementById("show-signup").addEventListener("click", (e) => {
   e.preventDefault(); // Prevent the default link behavior
