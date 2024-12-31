@@ -9,6 +9,15 @@ const userSchema = new mongoose.Schema({
   workoutPreferences: { type: String, default: "Not set" },
   availability: { type: String, default: "Not set" },
   roleDetails: { type: Object, default: {} },
-});
+  
+  // New Fields
+  contactDetails: {
+    phone: { type: String, default: "" }, // Optional phone number
+    email: { type: String, default: "" }, // Optional email address
+  },
+  fitnessHistory: { type: String, default: "No activities logged yet" }, // Fitness milestones or activities
+
+  // Timestamps for createdAt and updatedAt
+}, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
