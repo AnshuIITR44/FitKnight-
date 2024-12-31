@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (response.ok) {
     const user = await response.json();
+    console.log("Fetched User Data:", user); // Debug fetched user data
     document.getElementById("username").textContent = user.username;
     document.getElementById("fitness-goals").textContent = user.fitnessGoals || "Not set";
     document.getElementById("preferences").textContent = user.workoutPreferences || "Not set";
