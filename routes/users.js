@@ -18,7 +18,7 @@ router.get("/", authenticateToken, async (req, res) => {
       role: user.role,
       roleDetails: user.roleDetails,
       fitnessHistory: user.fitnessHistory || "No activities logged yet",
-      contactDetails: user.contactDetails,
+      contactDetails: user.contactDetails, // Includes phone, email, showPhone, and showEmail
     });
   } catch (error) {
     console.error("Error fetching user profile:", error);
@@ -38,6 +38,14 @@ router.put("/", authenticateToken, async (req, res) => {
   } = req.body;
 
   try {
+    // Ensure contact details object exists and defaults are applied
+    const updatedContactDetails = {
+      phone: contactDetails?.phone || "",
+      email: contactDetails?.email || "",
+      showPhone: contactDetails?.showPhone || false,
+      showEmail: contactDetails?.showEmail || false,
+    };
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
@@ -45,12 +53,7 @@ router.put("/", authenticateToken, async (req, res) => {
         workoutPreferences: workoutPreferences || "Not set",
         availability: availability || "Not set",
         fitnessHistory: fitnessHistory || "No activities logged yet",
-        contactDetails: {
-          phone: contactDetails.phone || "",
-          email: contactDetails.email || "",
-          showPhone: contactDetails.showPhone || false,
-          showEmail: contactDetails.showEmail || false,
-        },
+        contactDetails: updatedContactDetails, // Save updated contact details
       },
       { new: true, runValidators: true }
     );
