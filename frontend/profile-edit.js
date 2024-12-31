@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
 
+  // Fetch user details for editing
   const response = await fetch("https://fitknight-01ae.onrender.com/users", {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("Failed to fetch profile details.");
   }
 
-  // Handle profile edit form submission
+  // Handle form submission
   document.getElementById("profile-edit-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const updateData = await updateResponse.json();
     if (updateData.success) {
       alert("Profile updated successfully!");
-      window.location.href = "profile.html"; // Redirect to profile.html
+      window.location.href = "profile.html"; // Reload profile page
     } else {
       alert("Failed to update profile: " + updateData.message);
     }
