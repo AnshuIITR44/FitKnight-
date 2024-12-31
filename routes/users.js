@@ -22,6 +22,8 @@ router.put("/", authenticateToken, async (req, res) => {
   const userId = req.user.id;
   const { fitnessGoals, workoutPreferences, availability } = req.body;
 
+  console.log("Update Request Body:", req.body); // Debug incoming data
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
@@ -30,13 +32,14 @@ router.put("/", authenticateToken, async (req, res) => {
         workoutPreferences: workoutPreferences || undefined,
         availability: availability || undefined,
       },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true } // Return updated document
     );
 
     if (!updatedUser) {
       return res.status(404).json({ success: false, message: "User not found!" });
     }
 
+    console.log("Updated User:", updatedUser); // Debug saved data
     res.json({ success: true, message: "Profile updated successfully!", user: updatedUser });
   } catch (error) {
     console.error("Error updating user profile:", error);
