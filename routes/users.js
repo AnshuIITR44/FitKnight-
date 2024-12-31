@@ -5,7 +5,7 @@ const authenticateToken = require("../middleware/authenticateToken");
 
 // Update user profile
 router.put("/", authenticateToken, async (req, res) => {
-  const userId = req.user.id; // Retrieve userId from the decoded token
+  const userId = req.user.id; // Extract user ID from the token
   const { fitnessGoals, workoutPreferences, availability } = req.body;
 
   try {
@@ -27,4 +27,3 @@ router.put("/", authenticateToken, async (req, res) => {
 });
 
 module.exports = router;
-
