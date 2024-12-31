@@ -5,18 +5,32 @@ const User = require("../models/user");
 const router = express.Router();
 
 // Signup Route
-router.post("/signup", async (req, res) => {
+const multer = require("multer");
+
+// Configure multer for profile picture uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
+});
+const upload = multer({ storage });
+
+// Signup Route with profile picture upload
+router.post("/signup", upload.single("profilePicture"), async (req, res) => {
   try {
     const { username, password, role } = req.body;
+    const profilePicture = req.file ? req.file.filename : "default-profile.jpg";
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword, role });
+
+    const newUser = new User({ username, password: hashedPassword, role, profilePicture });
     await newUser.save();
+
     res.status(201).json({ success: true, message: "User signed up successfully!" });
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 
 // Login Route
 router.post("/login", async (req, res) => {
