@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const updateData = await updateResponse.json();
     if (updateData.success) {
       alert("Profile updated successfully!");
-      window.location.href = "buddy-dashboard.html";
+      window.location.reload(); // Reload to fetch updated profile
     } else {
       alert("Failed to update profile: " + updateData.message);
     }
