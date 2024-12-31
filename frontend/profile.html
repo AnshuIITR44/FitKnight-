@@ -8,18 +8,36 @@
 <body>
   <h1>My Profile</h1>
   <div id="profile">
-    <img id="profile-picture" src="" alt="Profile Picture" />
-    <p><strong>Username:</strong> <span id="username">Loading...</span></p> <!-- Added Username -->
+    <!-- Profile Picture -->
+    <img id="profile-picture" src="" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;" />
+    
+    <!-- Username -->
+    <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+    
+    <!-- Fitness Goals -->
     <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
+    
+    <!-- Workout Preferences -->
     <p><strong>Preferences:</strong> <span id="workout-preferences">Not set</span></p>
+    
+    <!-- Availability -->
     <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
+    
+    <!-- Fitness History -->
+    <p><strong>Fitness History:</strong> <span id="fitness-history">Not available</span></p>
+    
+    <!-- Contact Details -->
+    <div id="contact-details">
+      <p><strong>Phone:</strong> <span id="phone">Hidden</span></p>
+      <p><strong>Email:</strong> <span id="email">Hidden</span></p>
+    </div>
   </div>
 
-  <!-- Added Profile Actions Section -->
+  <!-- Profile Actions -->
   <div id="profile-actions">
-    <a href="dashboard.html" class="btn">Dashboard</a>
-    <a href="logout.html" class="btn">Logout</a>
-    <button id="edit-profile-btn">Edit Profile</button>
+    <a href="buddy-dashboard.html" class="btn">Dashboard</a>
+    <a href="index.html" class="btn">Logout</a>
+    <button id="edit-profile-btn" class="btn">Edit Profile</button>
   </div>
 
   <script>
@@ -33,11 +51,22 @@
 
         if (response.ok) {
           const user = await response.json();
-          document.getElementById("profile-picture").src = `uploads/${user.profilePicture}`;
-          document.getElementById("username").innerText = user.username || "Not set"; // Set username
+
+          // Profile Picture (Ensure backend serves 'uploads' folder)
+          document.getElementById("profile-picture").src = `/uploads/${user.profilePicture}`;
+          
+          // Username and other details
+          document.getElementById("username").innerText = user.username || "Not set";
           document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
           document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
           document.getElementById("availability").innerText = user.availability || "Not set";
+          
+          // Fitness History
+          document.getElementById("fitness-history").innerText = user.fitnessHistory || "No activities logged yet";
+          
+          // Contact Details
+          document.getElementById("phone").innerText = user.contactDetails?.phone || "Hidden";
+          document.getElementById("email").innerText = user.contactDetails?.email || "Hidden";
         } else {
           alert("Failed to fetch profile details.");
         }
