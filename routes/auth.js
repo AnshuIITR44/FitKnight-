@@ -16,20 +16,21 @@ const upload = multer({ storage });
 router.post("/signup", upload.single("profilePicture"), async (req, res) => {
   try {
     const { username, password, role, roleDetails } = req.body;
-    const profilePicture = req.file ? req.file.filename : "default-profile.jpg";
+    const profilePicture = req.file ? req.file.filename : "default-profile.jpg"; // Default profile picture
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Creating a new user document
     const newUser = new User({
       username,
       password: hashedPassword,
       role,
       profilePicture,
-      roleDetails: JSON.parse(roleDetails || "{}"),
+      roleDetails: JSON.parse(roleDetails || "{}"), // Parse roleDetails if provided
     });
 
     await newUser.save();
 
-    // Automatically log the user in after signup
+    // Generate JWT token and log in the user
     const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
@@ -50,12 +51,16 @@ router.post("/signup", upload.single("profilePicture"), async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+
+    // Find user by username
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ success: false, message: "User not found!" });
 
+    // Validate password
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) return res.status(401).json({ success: false, message: "Invalid password!" });
 
+    // Generate JWT token
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
