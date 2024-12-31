@@ -3,44 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Profile</title>
+  <title>FitKnight - Profile</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #1f1f1f;
+      border-bottom: 2px solid #444;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #ff9800;
+    }
+
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      background-color: #1f1f1f;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar a {
+      display: block;
+      color: #ffffff;
+      text-decoration: none;
+      margin: 15px 0;
+      font-size: 1.2rem;
+    }
+
+    .sidebar a:hover {
+      color: #ff9800;
+    }
+
+    .main-content {
+      margin-left: 270px;
+      padding: 20px;
+    }
+
+    .profile-section {
+      max-width: 800px;
+      margin: auto;
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .profile-section img {
+      display: block;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 20px auto;
+      border: 3px solid #ff9800;
+    }
+
+    .profile-section p {
+      text-align: center;
+      font-size: 1.1rem;
+      margin: 10px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #ff9800;
+      color: #121212;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1rem;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #e68900;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Edit Your Profile</h1>
+    <h1>FitKnight</h1>
+    <p>Your ultimate fitness companion</p>
   </header>
-  <main>
-    <form id="profile-edit-form">
-      <label for="fitness-goals">Fitness Goals:</label>
-      <input type="text" id="fitness-goals" required>
 
-      <label for="workout-preferences">Workout Preferences:</label>
-      <input type="text" id="workout-preferences" required>
+  <div class="sidebar">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="settings.html">Settings</a>
+    <a href="logout.html">Logout</a>
+  </div>
 
-      <label for="availability">Availability:</label>
-      <input type="text" id="availability" required>
+  <div class="main-content">
+    <div class="profile-section">
+      <img id="profile-picture" src="default-profile.jpg" alt="Profile Picture">
+      <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+      <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
+      <p><strong>Preferences:</strong> <span id="workout-preferences">Not set</span></p>
+      <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
+      <p><strong>Fitness History:</strong> <span id="fitness-history">Not available</span></p>
+      <p><strong>Phone:</strong> <span id="phone">Hidden</span></p>
+      <p><strong>Email:</strong> <span id="email">Hidden</span></p>
+      <a href="profile-edit.html" class="btn">Edit Profile</a>
+    </div>
+  </div>
 
-      <!-- Contact Details Section -->
-      <h2>Contact Details</h2>
-      <label for="phone">Phone Number:</label>
-      <input type="text" id="phone" placeholder="Enter your phone number">
-      <label for="email">Email Address:</label>
-      <input type="email" id="email" placeholder="Enter your email">
+  <footer>
+    <p>&copy; 2024 FitKnight. All rights reserved.</p>
+  </footer>
 
-      <!-- Visibility Options -->
-      <label>
-        <input type="checkbox" id="show-phone">
-        Show Phone Number
-      </label>
-      <label>
-        <input type="checkbox" id="show-email">
-        Show Email Address
-      </label>
-
-      <button type="submit">Save Changes</button>
-    </form>
-  </main>
-  <script src="profile-edit.js"></script>
+  <script src="profile.js"></script>
 </body>
 </html>
