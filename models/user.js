@@ -9,7 +9,10 @@ const userSchema = new mongoose.Schema(
     fitnessGoals: { type: String, default: "Not set" },
     workoutPreferences: { type: String, default: "Not set" },
     availability: { type: String, default: "Not set" },
-    roleDetails: { type: Object, default: {} },
+    roleDetails: {
+      type: Object,
+      default: {}, // Store additional details based on the role
+    },
 
     // Contact Details
     contactDetails: {
@@ -20,11 +23,14 @@ const userSchema = new mongoose.Schema(
     },
 
     // Fitness History
-    fitnessHistory: { type: String, default: "No activities logged yet" },
-
-    // Timestamps for createdAt and updatedAt
+    fitnessHistory: {
+      type: String,
+      default: "No activities logged yet", // Default message for fitness history
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true, // Automatically adds createdAt and updatedAt fields
+  }
 );
 
 module.exports = mongoose.model("User", userSchema);
