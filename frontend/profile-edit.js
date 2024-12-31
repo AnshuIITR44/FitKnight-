@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       contactDetails: {
         phone: document.getElementById("phone").value,
         email: document.getElementById("email").value,
-        showPhone: document.getElementById("show-phone").checked,
-        showEmail: document.getElementById("show-email").checked,
+        showPhone: document.getElementById("show-phone").checked, // Capture visibility flag
+        showEmail: document.getElementById("show-email").checked, // Capture visibility flag
       },
     };
 
