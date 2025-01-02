@@ -7,9 +7,12 @@ const authenticateToken = require("../middleware/authenticateToken");
 router.get("/", authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ success: false, message: "User not found!" });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found!" });
+    }
 
-    res.json({
+    // Clean up response
+    const sanitizedUser = {
       username: user.username,
       profilePicture: user.profilePicture,
       fitnessGoals: user.fitnessGoals || "Not set",
@@ -17,9 +20,11 @@ router.get("/", authenticateToken, async (req, res) => {
       availability: user.availability || "Not set",
       role: user.role,
       roleDetails: user.roleDetails,
-    });
+    };
+
+    res.json(sanitizedUser);
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error("Error fetching user profile:", error.message, error.stack);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
@@ -27,7 +32,7 @@ router.get("/", authenticateToken, async (req, res) => {
 // Update User Profile
 router.put("/", authenticateToken, async (req, res) => {
   const userId = req.user.id;
-  const { fitnessGoals, workoutPreferences, availability } = req.body;
+  const { fitnessGoals, workoutPreferences, availability, profilePicture, roleDetails } = req.body;
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -36,6 +41,8 @@ router.put("/", authenticateToken, async (req, res) => {
         fitnessGoals: fitnessGoals || "Not set",
         workoutPreferences: workoutPreferences || "Not set",
         availability: availability || "Not set",
+        profilePicture, // Allow updating profile picture
+        roleDetails, // Allow updating role details
       },
       { new: true, runValidators: true }
     );
@@ -44,9 +51,20 @@ router.put("/", authenticateToken, async (req, res) => {
       return res.status(404).json({ success: false, message: "User not found!" });
     }
 
-    res.json({ success: true, message: "Profile updated successfully!", user: updatedUser });
+    // Clean up response
+    const sanitizedUser = {
+      username: updatedUser.username,
+      profilePicture: updatedUser.profilePicture,
+      fitnessGoals: updatedUser.fitnessGoals,
+      workoutPreferences: updatedUser.workoutPreferences,
+      availability: updatedUser.availability,
+      role: updatedUser.role,
+      roleDetails: updatedUser.roleDetails,
+    };
+
+    res.json({ success: true, message: "Profile updated successfully!", user: sanitizedUser });
   } catch (error) {
-    console.error("Error updating user profile:", error);
+    console.error("Error updating user profile:", error.message, error.stack);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
