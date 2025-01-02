@@ -139,15 +139,24 @@ main {
   color: #e0e0e0;
 }
 
-/* Profile Picture */
-#profile-picture {
-  border-radius: 50%;
-  border: 3px solid #76c7c0;
-  width: 150px;
-  height: 150px;
-  display: block;
-  margin: 20px auto;
+/* Wrapper for the Profile Picture */
+.profile-picture-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px; /* Add spacing below the profile picture */
 }
+
+/* Circular Style for the Image */
+#profile-picture {
+  width: 120px; /* Adjust size as needed */
+  height: 120px;
+  border-radius: 50%; /* Makes the image circular */
+  border: 2px solid #444; /* Optional: Border around the image */
+  object-fit: cover; /* Ensures the image fits within the circle */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add shadow for a professional look */
+}
+
 
 /* Footer Styling */
 footer {
