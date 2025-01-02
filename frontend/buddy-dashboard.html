@@ -19,12 +19,7 @@
       background-color: #444;
       border-radius: 50%;
       cursor: pointer;
-      transition: transform 0.2s ease;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .profile-menu:hover {
-      transform: scale(1.1);
     }
 
     .profile-menu img {
@@ -58,7 +53,8 @@
       background-color: #575757;
     }
 
-    .profile-menu:hover .menu-content {
+    /* Show dropdown when active */
+    .profile-menu.active .menu-content {
       display: block;
     }
 
@@ -91,23 +87,35 @@
 </head>
 <body>
   <!-- Circular Profile Menu -->
-  <div class="profile-menu">
+  <div class="profile-menu" id="profileMenu">
     <img src="uploads/profile-picture.jpg" alt="Profile Picture">
     <div class="menu-content">
       <a href="profile.html">Profile</a>
-      <a href="index.html">Logout</a>
+      <a href="logout.html">Logout</a>
     </div>
   </div>
 
   <header>
-    <h1>Dashboard</h1>
+    <h1>Buddy Dashboard</h1>
   </header>
   <main>
-    <p>Welcome to the Dashboard!</p>
+    <p>Welcome to the Buddy Dashboard!</p>
+    <p>Here you can manage your buddy interactions and track progress.</p>
     <!-- Add your dashboard content here -->
   </main>
-  <footer>
-    <p>&copy; 2025 FitKnight. All Rights Reserved.</p>
-  </footer>
+
+
+  <script>
+    // Toggle dropdown on click
+    const profileMenu = document.getElementById("profileMenu");
+    document.addEventListener("click", (event) => {
+      // Check if the click is inside the profile menu
+      if (profileMenu.contains(event.target)) {
+        profileMenu.classList.toggle("active");
+      } else {
+        profileMenu.classList.remove("active");
+      }
+    });
+  </script>
 </body>
 </html>
