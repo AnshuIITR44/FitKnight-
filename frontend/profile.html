@@ -117,15 +117,18 @@
 <body>
   <div class="side-menu">
     <a href="buddy-dashboard.html">Dashboard</a>
-    <a href=index.html">Logout</a>
+    <a href=index.html>Logout</a>
   </div>
 
   <header>
     <h1>My Profile</h1>
   </header>
   <main>
-    <section class="card" id="profile-container">
-      <img src="uploads/default-profile.jpg" alt="Profile Picture">
+   <section class="card" id="profile-container">
+  <!-- Profile Picture -->
+  <div class="profile-picture-wrapper">
+    <img id="profile-picture" src="uploads/default-profile.jpg" alt="Profile Picture">
+  </div>
       <div id="profile-details">
         <h2>User Details</h2>
         <p><strong>Username:</strong> <span id="username">Loading...</span></p>
