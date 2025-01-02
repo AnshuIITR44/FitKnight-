@@ -1,25 +1,159 @@
-/* Basic styling for forms */
+/* General Reset */
+body, h1, h2, h3, p, a, input, button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #121212; /* Black theme background */
+  color: #e0e0e0; /* Light text color */
+  line-height: 1.6;
+  padding: 10px;
+}
+
+/* Header Styling */
+header {
+  background: #1e1e1e;
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+  font-size: 2rem;
+}
+
+header nav a {
+  color: #76c7c0; /* Accent color */
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+header nav a:hover {
+  color: #ffffff;
+}
+
+/* Forms Styling */
 form {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }
 
 form input, form select, form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
   padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+form input, form select {
+  background: #292929;
+  color: #e0e0e0;
+}
+
+form button {
+  background: #76c7c0;
+  color: #121212;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background: #64a9a3;
+}
+
+/* Buttons */
+button {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #76c7c0;
+  color: #121212;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #64a9a3;
+}
+
+/* Links */
+a {
+  color: #76c7c0;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #ffffff;
+}
+
+/* Containers */
+main {
+  max-width: 800px;
+  margin: 20px auto;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Card Component */
+.card {
+  background: #292929;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.card h3 {
+  color: #76c7c0;
+}
+
+/* Chatbox */
+#chat-box {
+  background: #292929;
+  border-radius: 10px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
   margin-bottom: 10px;
 }
 
-#login-section, #signup-section {
-  max-width: 400px;
-  margin: 50px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+#chat-input {
+  background: #292929;
+  color: #e0e0e0;
 }
 
-a {
-  color: #0077b6;
-  text-decoration: none;
+/* Profile Picture */
+#profile-picture {
+  border-radius: 50%;
+  border: 3px solid #76c7c0;
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 20px auto;
+}
+
+/* Footer Styling */
+footer {
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+  background: #1e1e1e;
+  color: #e0e0e0;
 }
