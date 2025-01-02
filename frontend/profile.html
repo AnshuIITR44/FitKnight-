@@ -6,51 +6,120 @@
   <title>Profile - FitKnight</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Dropdown Menu Styles */
-    .menu {
-      position: relative;
-      display: inline-block;
-    }
-
-    .menu-content {
-      display: none;
-      position: absolute;
+    /* Side Menu Styles */
+    .side-menu {
+      position: fixed;
+      top: 20px;
+      right: 20px;
       background-color: #333;
-      min-width: 150px;
-      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-      z-index: 1;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      padding: 10px 0;
     }
 
-    .menu-content a {
+    .side-menu a {
+      display: block;
       color: white;
-      padding: 12px 16px;
       text-decoration: none;
-      display: block;
+      padding: 15px 20px;
+      font-size: 16px;
     }
 
-    .menu-content a:hover {
+    .side-menu a:hover {
       background-color: #575757;
+      border-radius: 8px;
     }
 
-    .menu:hover .menu-content {
-      display: block;
+    /* Page Layout */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #222;
+      color: white;
     }
 
-    .menu-btn {
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #444;
+      border-bottom: 2px solid #575757;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .card {
+      background-color: #333;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #profile-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #profile-picture {
+      border-radius: 50%;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    #profile-details {
+      text-align: center;
+    }
+
+    #profile-details p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    #profile-actions {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    button {
       background-color: #444;
       color: white;
-      padding: 10px 16px;
-      font-size: 16px;
       border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
     }
 
-    .menu-btn:hover {
+    button:hover {
       background-color: #575757;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #444;
+      border-top: 2px solid #575757;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
     }
   </style>
 </head>
 <body>
+  <div class="side-menu">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="logout.html">Logout</a>
+  </div>
+
   <header>
     <h1>My Profile</h1>
   </header>
@@ -66,13 +135,6 @@
       </div>
       <div id="profile-actions">
         <button id="edit-profile-btn">Edit Profile</button>
-        <div class="menu">
-          <button class="menu-btn">Options</button>
-          <div class="menu-content">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="logout.html">Logout</a>
-          </div>
-        </div>
       </div>
     </section>
   </main>
