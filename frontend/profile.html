@@ -5,6 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile - FitKnight</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Dropdown Menu Styles */
+    .menu {
+      position: relative;
+      display: inline-block;
+    }
+
+    .menu-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 150px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .menu-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .menu-content a:hover {
+      background-color: #575757;
+    }
+
+    .menu:hover .menu-content {
+      display: block;
+    }
+
+    .menu-btn {
+      background-color: #444;
+      color: white;
+      padding: 10px 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .menu-btn:hover {
+      background-color: #575757;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -22,8 +66,13 @@
       </div>
       <div id="profile-actions">
         <button id="edit-profile-btn">Edit Profile</button>
-        <a href="dashboard.html" class="btn">Dashboard</a>
-        <a href="logout.html" class="btn">Logout</a>
+        <div class="menu">
+          <button class="menu-btn">Options</button>
+          <div class="menu-content">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="logout.html">Logout</a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
