@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Check if profilePicture exists, otherwise use a default image
       const profilePictureSrc = user.profilePicture
         ? `uploads/${user.profilePicture}`
-        : "default-profile.png";
+        : "default-profile.jpg";
 
       document.getElementById("profile-picture").src = profilePictureSrc;
       document.getElementById("username").innerText = user.username;
