@@ -14,13 +14,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (response.ok) {
       const user = await response.json();
 
-      // Construct profile picture URL or fallback to default
-      const profilePictureSrc = user.profilePicture
-        ? `https://fitknight-01ae.onrender.com/uploads/${user.profilePicture}`
-        : `https://fitknight-01ae.onrender.com/uploads/default-profile.jpg`;
-
       // Set profile picture and other details
-      document.getElementById("profile-picture").src = profilePictureSrc;
+            // Update profile picture
+      document.getElementById("profile-picture").src = `/uploads/${user.profilePicture}`;
       document.getElementById("username").innerText = user.username;
       document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
       document.getElementById("workout-preferences").innerText =
