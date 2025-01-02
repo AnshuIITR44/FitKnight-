@@ -13,10 +13,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (response.ok) {
       const user = await response.json();
+      const profilePictureSrc = user.profilePicture
+        ? `uploads/${user.profilePicture}`
+        : "uploads/default-profile.jpg";
 
-      // Set profile picture and other details
-            // Update profile picture
-      document.getElementById("profile-picture").src = `/uploads/${user.profilePicture}`;
+      document.getElementById("profile-picture").src = profilePictureSrc;
       document.getElementById("username").innerText = user.username;
       document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
       document.getElementById("workout-preferences").innerText =
