@@ -11,12 +11,14 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"), // Directory for uploads
   filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`), // Unique file name
 });
-const upload = multer({ 
+
+const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
     const fileTypes = /jpeg|jpg|png/; // Allowed file types
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = fileTypes.test(file.mimetype);
+
     if (extname && mimetype) {
       return cb(null, true);
     } else {
@@ -24,6 +26,24 @@ const upload = multer({
     }
   },
 });
+
+// Middleware to verify JWT token
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: "Access denied. No token provided." });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ success: false, message: "Invalid token." });
+    }
+    req.user = user; // Attach the user payload to the request object
+    next();
+  });
+};
 
 // Signup Route
 router.post("/signup", upload.single("profilePicture"), async (req, res) => {
@@ -95,33 +115,14 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Middleware to verify JWT token
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ success: false, message: "Access denied. No token provided." });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ success: false, message: "Invalid token." });
-    }
-
-    req.user = user;
-    next();
-  });
-};
+// Validate Token Endpoint
+router.get("/validate-token", authenticateToken, (req, res) => {
+  res.json({ success: true, message: "Token is valid.", user: req.user });
+});
 
 // Protected Test Route (optional, for testing)
 router.get("/protected", authenticateToken, (req, res) => {
   res.json({ success: true, message: "You have access to this protected route!", user: req.user });
 });
 
-
-// Validate Token Endpoint
-router.get("/validate-token", authenticateToken, (req, res) => {
-  res.json({ success: true, message: "Token is valid." });
-});
 module.exports = router;
