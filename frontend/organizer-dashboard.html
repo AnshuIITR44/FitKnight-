@@ -8,25 +8,39 @@
 </head>
 <body>
   <header>
-    <h1>Welcome, Organizer!</h1>
+    <h1>Organizer Dashboard</h1>
     <nav>
       <a href="index.html">Logout</a>
     </nav>
   </header>
   <main>
-    <section>
-      <h2>Your Groups</h2>
-      <div id="group-list"></div>
+    <!-- Manage Created Groups Section -->
+    <section id="manage-groups">
+      <h2>Manage Your Fitness Groups</h2>
+      <div id="created-groups">
+        <!-- Created groups will be dynamically loaded here -->
+      </div>
     </section>
-    <section>
-      <h2>Create a New Group</h2>
-      <form id="create-group-form">
-        <input type="text" id="group-name" placeholder="Group Name" required>
-        <input type="text" id="activity-type" placeholder="Activity Type" required>
-        <input type="text" id="location" placeholder="Location" required>
-        <input type="text" id="schedule" placeholder="Schedule" required>
-        <button type="submit">Create Group</button>
+
+    <!-- View Join Requests Section -->
+    <section id="view-requests">
+      <h2>View Join Requests</h2>
+      <div id="join-requests">
+        <!-- Join requests will be dynamically loaded here -->
+      </div>
+    </section>
+
+    <!-- Search for Workout Buddies Section -->
+    <section id="search-buddies">
+      <h2>Search for Workout Buddies</h2>
+      <form id="buddy-search-form">
+        <input type="text" id="proximity" placeholder="Enter Proximity (in km)">
+        <input type="text" id="availability" placeholder="Enter Availability">
+        <button type="submit">Search Buddies</button>
       </form>
+      <ul id="buddy-list">
+        <!-- Search results will be dynamically loaded here -->
+      </ul>
     </section>
   </main>
   <script src="organizer-dashboard.js"></script>
