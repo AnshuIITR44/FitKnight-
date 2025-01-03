@@ -119,4 +119,9 @@ router.get("/protected", authenticateToken, (req, res) => {
   res.json({ success: true, message: "You have access to this protected route!", user: req.user });
 });
 
+
+// Validate Token Endpoint
+router.get("/validate-token", authenticateToken, (req, res) => {
+  res.json({ success: true, message: "Token is valid." });
+});
 module.exports = router;
