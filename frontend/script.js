@@ -1,12 +1,12 @@
 // Toggle between login and signup sections
 document.getElementById("show-signup").addEventListener("click", (e) => {
-  e.preventDefault(); // Prevent the default link behavior
+  e.preventDefault();
   document.getElementById("login-section").style.display = "none";
   document.getElementById("signup-section").style.display = "block";
 });
 
 document.getElementById("show-login").addEventListener("click", (e) => {
-  e.preventDefault(); // Prevent the default link behavior
+  e.preventDefault();
   document.getElementById("signup-section").style.display = "none";
   document.getElementById("login-section").style.display = "block";
 });
@@ -32,10 +32,11 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
 
     const data = await response.json();
     if (data.success) {
+      // Store the token and role in localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
 
-      // Redirect based on role
+      // Redirect to the appropriate dashboard
       if (data.role === "buddy") {
         window.location.href = "buddy-dashboard.html";
       } else if (data.role === "organizer") {
@@ -74,7 +75,7 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   formData.append("password", password);
   formData.append("role", role);
   formData.append("roleDetails", JSON.stringify(roleDetails));
-  
+
   const profilePicture = document.getElementById("profile-picture").files[0];
   if (profilePicture) {
     formData.append("profilePicture", profilePicture);
@@ -114,15 +115,32 @@ function logout() {
 }
 
 // Check authentication status
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  if (token && role) {
-    if (role === "buddy") {
-      window.location.href = "buddy-dashboard.html";
-    } else if (role === "organizer") {
-      window.location.href = "organizer-dashboard.html";
+  if (!token || !role) {
+    // Redirect to login page if no token or role is found
+    window.location.href = "index.html";
+    return;
+  }
+
+  try {
+    // Validate token with the backend
+    const response = await fetch("https://fitknight-01ae.onrender.com/auth/validate-token", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = await response.json();
+    if (!data.success) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      window.location.href = "index.html";
     }
+  } catch (error) {
+    console.error("Error validating token:", error);
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    window.location.href = "index.html";
   }
 });
