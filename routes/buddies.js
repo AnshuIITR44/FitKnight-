@@ -1,27 +1,32 @@
-
 const express = require("express");
 const router = express.Router();
-const Buddy = require("../models/buddy");
+const User = require("../models/user");
+const authenticateToken = require("../middleware/authenticateToken");
 
-router.post("/", async (req, res) => {
-  try {
-    const { name, age, hobby } = req.body;
-    const newBuddy = new Buddy({ name, age, hobby });
-    await newBuddy.save();
-    res.status(201).json({ message: "Buddy created successfully!", buddy: newBuddy });
-  } catch (error) {
-    console.error("Error creating buddy:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
+// Search for Workout Buddies
+router.get("/search", authenticateToken, async (req, res) => {
+  const { proximity, availability } = req.query;
 
-router.get("/", async (req, res) => {
   try {
-    const buddies = await Buddy.find();
-    res.status(200).json(buddies);
+    const users = await User.find({
+      role: "buddy",
+      availability: availability || { $exists: true },
+    });
+
+    // Proximity filtering (mock logic, replace with real geolocation filtering)
+    const filteredUsers = users.filter((user) => {
+      // Example proximity check (replace with real distance logic)
+      return proximity ? user.location.proximity <= Number(proximity) : true;
+    });
+
+    if (!filteredUsers.length) {
+      return res.json({ success: true, message: "No buddies found." });
+    }
+
+    res.json({ success: true, buddies: filteredUsers });
   } catch (error) {
-    console.error("Error fetching buddies:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error searching buddies:", error.message);
+    res.status(500).json({ success: false, message: "Internal server error." });
   }
 });
 
