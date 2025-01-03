@@ -24,19 +24,17 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   }
 
   try {
-    const response = await fetch("https://fitknight-01ae.onrender.com/auth/login", {
+    const response = await fetch("http://localhost:3000/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
     });
 
     const data = await response.json();
-    if (data.success) {
-      // Store the token and role in localStorage
+    if (response.ok && data.success) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
 
-      // Redirect to the appropriate dashboard
       if (data.role === "buddy") {
         window.location.href = "buddy-dashboard.html";
       } else if (data.role === "organizer") {
@@ -59,16 +57,11 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   const password = document.getElementById("signup-password").value.trim();
   const role = document.getElementById("signup-role").value;
 
-  if (!username || !password || !role) {
-    alert("Please fill in all required fields.");
-    return;
-  }
-
   const roleDetails = role === "buddy" ? {
     fitnessGoals: document.getElementById("fitness-goals").value,
     workoutPreferences: document.getElementById("workout-preferences").value,
     availability: document.getElementById("availability").value,
-  } : {}; // No additional details for organizer during signup
+  } : {};
 
   const formData = new FormData();
   formData.append("username", username);
@@ -82,14 +75,13 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   }
 
   try {
-    const response = await fetch("https://fitknight-01ae.onrender.com/auth/signup", {
+    const response = await fetch("http://localhost:3000/auth/signup", {
       method: "POST",
       body: formData,
     });
 
     const data = await response.json();
-    if (data.success) {
-      // Automatically log the user in after signup
+    if (response.ok && data.success) {
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
 
@@ -104,43 +96,5 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   } catch (error) {
     console.error("Signup error:", error);
     alert("An error occurred during signup. Please try again.");
-  }
-});
-
-// Handle logout functionality
-function logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("role");
-  window.location.href = "index.html";
-}
-
-// Check authentication status
-document.addEventListener("DOMContentLoaded", async () => {
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
-
-  if (!token || !role) {
-    // Redirect to login page if no token or role is found
-    window.location.href = "index.html";
-    return;
-  }
-
-  try {
-    // Validate token with the backend
-    const response = await fetch("https://fitknight-01ae.onrender.com/auth/validate-token", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    const data = await response.json();
-    if (!data.success) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      window.location.href = "index.html";
-    }
-  } catch (error) {
-    console.error("Error validating token:", error);
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    window.location.href = "index.html";
   }
 });
