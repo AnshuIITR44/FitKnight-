@@ -14,8 +14,14 @@ document.getElementById("show-login").addEventListener("click", (e) => {
 // Handle login form submission
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const username = document.getElementById("login-username").value;
-  const password = document.getElementById("login-password").value;
+
+  const username = document.getElementById("login-username").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+
+  if (!username || !password) {
+    alert("Please enter both username and password.");
+    return;
+  }
 
   try {
     const response = await fetch("https://fitknight-01ae.onrender.com/auth/login", {
@@ -48,7 +54,15 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
 document.getElementById("signup-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const username = document.getElementById("signup-username").value.trim();
+  const password = document.getElementById("signup-password").value.trim();
   const role = document.getElementById("signup-role").value;
+
+  if (!username || !password || !role) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
   const roleDetails = role === "buddy" ? {
     fitnessGoals: document.getElementById("fitness-goals").value,
     workoutPreferences: document.getElementById("workout-preferences").value,
@@ -56,13 +70,14 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   } : {}; // No additional details for organizer during signup
 
   const formData = new FormData();
-  formData.append("username", document.getElementById("signup-username").value);
-  formData.append("password", document.getElementById("signup-password").value);
+  formData.append("username", username);
+  formData.append("password", password);
   formData.append("role", role);
   formData.append("roleDetails", JSON.stringify(roleDetails));
   
-  if (document.getElementById("profile-picture").files[0]) {
-    formData.append("profilePicture", document.getElementById("profile-picture").files[0]);
+  const profilePicture = document.getElementById("profile-picture").files[0];
+  if (profilePicture) {
+    formData.append("profilePicture", profilePicture);
   }
 
   try {
