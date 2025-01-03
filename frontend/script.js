@@ -17,24 +17,30 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   const username = document.getElementById("login-username").value;
   const password = document.getElementById("login-password").value;
 
-  const response = await fetch("https://fitknight-01ae.onrender.com/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
+  try {
+    const response = await fetch("https://fitknight-01ae.onrender.com/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
 
-  const data = await response.json();
-  if (data.success) {
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("role", data.role);
-    // Redirect based on role
-    if (data.role === "buddy") {
-      window.location.href = "buddy-dashboard.html";
-    } else if (data.role === "organizer") {
-      window.location.href = "organizer-dashboard.html";
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
+
+      // Redirect based on role
+      if (data.role === "buddy") {
+        window.location.href = "buddy-dashboard.html";
+      } else if (data.role === "organizer") {
+        window.location.href = "organizer-dashboard.html";
+      }
+    } else {
+      alert(data.message || "Invalid login credentials.");
     }
-  } else {
-    alert(data.message);
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("An error occurred during login. Please try again.");
   }
 });
 
@@ -54,24 +60,54 @@ document.getElementById("signup-form").addEventListener("submit", async (e) => {
   formData.append("password", document.getElementById("signup-password").value);
   formData.append("role", role);
   formData.append("roleDetails", JSON.stringify(roleDetails));
-  formData.append("profilePicture", document.getElementById("profile-picture").files[0]);
+  
+  if (document.getElementById("profile-picture").files[0]) {
+    formData.append("profilePicture", document.getElementById("profile-picture").files[0]);
+  }
 
-  const response = await fetch("https://fitknight-01ae.onrender.com/auth/signup", {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const response = await fetch("https://fitknight-01ae.onrender.com/auth/signup", {
+      method: "POST",
+      body: formData,
+    });
 
-  const data = await response.json();
-  if (data.success) {
-    // Automatically log the user in after signup
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("role", data.role);
-    if (data.role === "buddy") {
-      window.location.href = "profile-edit.html";
-    } else if (data.role === "organizer") {
+    const data = await response.json();
+    if (data.success) {
+      // Automatically log the user in after signup
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
+
+      if (data.role === "buddy") {
+        window.location.href = "profile-edit.html";
+      } else if (data.role === "organizer") {
+        window.location.href = "organizer-dashboard.html";
+      }
+    } else {
+      alert(data.message || "Signup failed. Please try again.");
+    }
+  } catch (error) {
+    console.error("Signup error:", error);
+    alert("An error occurred during signup. Please try again.");
+  }
+});
+
+// Handle logout functionality
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  window.location.href = "index.html";
+}
+
+// Check authentication status
+document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  if (token && role) {
+    if (role === "buddy") {
+      window.location.href = "buddy-dashboard.html";
+    } else if (role === "organizer") {
       window.location.href = "organizer-dashboard.html";
     }
-  } else {
-    alert(data.message);
   }
 });
