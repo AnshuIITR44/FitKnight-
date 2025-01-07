@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!groupId || !token) {
     alert("Missing group ID or user authentication!");
-    window.location.href = "buddy-dashboard.html";
+    window.location.href = "organizer-dashboard.html";
     return;
   }
 
