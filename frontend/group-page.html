@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Group: <span id="group-name">Loading...</span></h1>
+    <nav>
+      <a href="buddy-dashboard.html">Dashboard</a>
+      <a href="profile.html">Profile</a>
+      <a href="index.html">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Group Details Section -->
+    <section id="group-details">
+      <h2>Group Details</h2>
+      <p><strong>Activity Type:</strong> <span id="activity-type">Loading...</span></p>
+      <p><strong>Schedule:</strong> <span id="schedule">Loading...</span></p>
+      <p><strong>Location:</strong> <span id="location">Loading...</span></p>
+      <p><strong>Description:</strong> <span id="description">Loading...</span></p>
+    </section>
+
+    <!-- Organizer Details Section -->
+    <section id="organizer-details">
+      <h2>Group Organizer</h2>
+      <p><strong>Name:</strong> <span id="organizer-name">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="organizer-email">Loading...</span></p>
+      <p><strong>Phone:</strong> <span id="organizer-phone">Loading...</span></p>
+    </section>
+
+    <!-- Member List Section -->
+    <section id="members">
+      <h2>Members</h2>
+      <ul id="member-list">Loading...</ul>
+    </section>
+
+    <!-- Interaction Options Section -->
+    <section id="interaction-options">
+      <h2>Group Chat</h2>
+      <div id="chat-box"></div>
+      <input type="text" id="chat-input" placeholder="Type a message...">
+      <button id="send-chat-btn">Send</button>
+      <button id="join-group-btn">Request to Join</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 FitKnight. All Rights Reserved.</p>
+  </footer>
+  <script src="group-page.js"></script>
+</body>
+</html>
