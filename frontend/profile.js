@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
+
   if (!token) {
     alert("You are not logged in!");
-    window.location.href = "index.html"; // Redirect to login if token is missing
     window.location.href = "index.html";
     return;
   }
@@ -10,31 +10,31 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     // Fetch user details from the server
     const response = await fetch("https://fitknight-01ae.onrender.com/users", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       headers: { Authorization: `Bearer ${token}` },
     });
 
     if (response.ok) {
       const user = await response.json();
-      // Check if profilePicture exists, otherwise use a default image
-      const profilePictureSrc = user.profilePicture
-        ? `uploads/${user.profilePicture}`
-        : "default-profile.png";
 
-      // Update the profile page with user data
+      // Update profile details
       document.getElementById("profile-picture").src = `uploads/${user.profilePicture}`;
-      document.getElementById("fitness-goals").innerText = user.roleDetails.fitnessGoals || "Not set";
-      document.getElementById("workout-preferences").innerText = user.roleDetails.workoutPreferences || "Not set";
-      document.getElementById("availability").innerText = user.roleDetails.availability || "Not set";
-      document.getElementById("profile-picture").src = profilePictureSrc;
-      document.getElementById("username").innerText = user.username;
+      document.getElementById("name").innerText = user.name || "Not set";
+      document.getElementById("about").innerText = user.about || "Not set";
       document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
-      document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
-      document.getElementById("availability").innerText = user.availability || "Not set";
+
+      // Update fitness history
+      const fitnessHistory = user.fitnessHistory || [];
+      const historyList = document.getElementById("fitness-history");
+      historyList.innerHTML = fitnessHistory.length
+        ? fitnessHistory.map((item) => `<li>${item}</li>`).join("")
+        : "<li>No fitness milestones yet.</li>";
+
+      // Update contact details
+      document.getElementById("phone").innerText = user.phone || "Not set";
+      document.getElementById("email").innerText = user.email || "Not set";
+      document.getElementById("phone-visibility").checked = user.contactVisibility?.phone || false;
+      document.getElementById("email-visibility").checked = user.contactVisibility?.email || false;
     } else {
-      alert("Failed to fetch profile details. Please try again later.");
       alert("Failed to fetch profile details.");
     }
   } catch (error) {
@@ -42,7 +42,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("An error occurred while fetching profile details.");
   }
 
-  // Redirect to edit profile page when 'Edit Profile' button is clicked
+  // Redirect to edit profile page
   document.getElementById("edit-profile-btn").addEventListener("click", () => {
     window.location.href = "profile-edit.html";
   });
+});
