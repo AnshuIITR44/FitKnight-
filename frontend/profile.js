@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("name").innerText = user.name || "Not set";
       document.getElementById("about").innerText = user.about || "Not set";
       document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
+      document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
+      document.getElementById("availability").innerText = user.availability || "Not set";
 
       // Update fitness history
       const fitnessHistory = user.fitnessHistory || [];
