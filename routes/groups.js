@@ -1,3 +1,7 @@
+const express = require("express");
+const router = express.Router();
+const Group = require("../models/group");
+
 router.get("/", async (req, res) => {
   try {
     const { activityType, location } = req.query;
@@ -14,3 +18,17 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+router.post("/", async (req, res) => {
+  try {
+    const { name, members } = req.body;
+    const newGroup = new Group({ name, members });
+    await newGroup.save();
+    res.status(201).json({ message: "Group created successfully!", group: newGroup });
+  } catch (error) {
+    console.error("Error creating group:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+module.exports = router;
