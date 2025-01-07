@@ -22,7 +22,7 @@ router.get("/", authenticateToken, async (req, res) => {
       phone: user.contactVisibility?.phone ? user.phone : null,
       email: user.contactVisibility?.email ? user.email : null,
       contactVisibility: user.contactVisibility,
-      role: user.role,
+      
     });
   } catch (error) {
     console.error("Error fetching user profile:", error);
