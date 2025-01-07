@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a New Group</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Create a New Group</h1>
+    <nav>
+      <a href="organizer-dashboard.html">Dashboard</a>
+      <a href="profile.html">Profile</a>
+      <a href="index.html">Logout</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="group-create-form-section">
+      <h2>Group Profile</h2>
+      <form id="group-create-form" enctype="multipart/form-data">
+        <!-- Organizer Details -->
+        <div>
+          <h3>Personal Information</h3>
+          <label for="organizer-name">Name:</label>
+          <input type="text" id="organizer-name" placeholder="Organizer's Name" required>
+          
+          <label for="organizer-picture">Profile Picture:</label>
+          <input type="file" id="organizer-picture" accept="image/*">
+        </div>
+
+        <!-- Group Goals -->
+        <div>
+          <h3>Group Goals</h3>
+          <label for="group-activities">Activities:</label>
+          <textarea id="group-activities" placeholder="Activities organized by the group..." required></textarea>
+
+          <label for="daily-goals">Daily Goals:</label>
+          <textarea id="daily-goals" placeholder="Enter the daily goals of the group..."></textarea>
+        </div>
+
+        <!-- Contact Details -->
+        <div>
+          <h3>Contact Details</h3>
+          <label for="phone">Phone:</label>
+          <input type="text" id="phone" placeholder="Organizer's Phone Number">
+          <label>
+            <input type="checkbox" id="phone-visibility"> Make phone number public
+          </label>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" placeholder="Organizer's Email">
+          <label>
+            <input type="checkbox" id="email-visibility"> Make email public
+          </label>
+        </div>
+
+        <button type="submit">Create Group</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 FitKnight. All Rights Reserved.</p>
+  </footer>
+
+  <script src="group-create.js"></script>
+</body>
+</html>
