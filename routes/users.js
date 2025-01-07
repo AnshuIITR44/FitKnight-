@@ -19,8 +19,8 @@ router.get("/", authenticateToken, async (req, res) => {
       availability: user.availability,
       about: user.about,
       fitnessHistory: user.fitnessHistory,
-      phone: user.phone,
-      email: user.email,
+      phone: user.contactVisibility?.phone ? user.phone : null,
+      email: user.contactVisibility?.email ? user.email : null,
       contactVisibility: user.contactVisibility,
       role: user.role,
     });
@@ -29,6 +29,7 @@ router.get("/", authenticateToken, async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 
 // Update User Profile
 router.put("/", authenticateToken, async (req, res) => {
