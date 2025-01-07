@@ -11,14 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("organizerName", document.getElementById("organizer-name").value);
-    formData.append("organizerPicture", document.getElementById("organizer-picture").files[0]);
-    formData.append("groupActivities", document.getElementById("group-activities").value);
-    formData.append("dailyGoals", document.getElementById("daily-goals").value);
-    formData.append("phone", document.getElementById("phone").value);
-    formData.append("phoneVisibility", document.getElementById("phone-visibility").checked);
-    formData.append("email", document.getElementById("email").value);
-    formData.append("emailVisibility", document.getElementById("email-visibility").checked);
+    formData.append("groupName", document.getElementById("group-name").value); // Group Name
+    formData.append("organizerPicture", document.getElementById("organizer-picture").files[0]); // Profile Picture
+    formData.append("groupActivities", document.getElementById("group-activities").value); // Group Activities
+    formData.append("dailyGoals", document.getElementById("daily-goals").value); // Daily Goals
+    formData.append("phone", document.getElementById("phone").value); // Phone
+    formData.append("phoneVisibility", document.getElementById("phone-visibility").checked); // Phone Visibility
+    formData.append("email", document.getElementById("email").value); // Email
+    formData.append("emailVisibility", document.getElementById("email-visibility").checked); // Email Visibility
 
     try {
       const response = await fetch("https://fitknight-01ae.onrender.com/groups", {
