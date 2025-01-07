@@ -32,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
       if (response.ok) {
         alert("Group created successfully!");
-        window.location.href = "organizer-dashboard.html";
+        // Redirect to Group Page with the newly created group's ID
+        window.location.href = `group-page.html?id=${result.group._id}`;
       } else {
         alert("Failed to create group: " + result.message);
       }
