@@ -138,16 +138,21 @@
     </section>
 
     <!-- Contact Details Section -->
-   <section class="card">
+    <section class="card">
       <h2>Contact Details</h2>
       <p>
-        <strong>Phone:</strong> <span id="phone">Loading...</span>
+        <strong>Phone:</strong> <span id="phone">Not set</span>
+        <label>
+          <input type="checkbox" id="phone-visibility" class="privacy-toggle" disabled> Public
+        </label>
       </p>
       <p>
-        <strong>Email:</strong> <span id="email">Loading...</span>
+        <strong>Email:</strong> <span id="email">Not set</span>
+        <label>
+          <input type="checkbox" id="email-visibility" class="privacy-toggle" disabled> Public
+        </label>
       </p>
     </section>
-
 
     <div id="profile-actions">
       <button id="edit-profile-btn">Edit Profile</button>
@@ -187,12 +192,10 @@
             : "<li>No fitness milestones yet.</li>";
 
           // Update contact details
-          // Handle email visibility
-          if (user.contactVisibility?.email) {
-            document.getElementById("email").innerText = user.email || "Not set";
-          } else {
-            document.getElementById("email").innerText = "Hidden by user";
-          }
+          document.getElementById("phone").innerText = user.phone || "Not set";
+          document.getElementById("email").innerText = user.email || "Not set";
+          document.getElementById("phone-visibility").checked = user.contactVisibility?.phone || false;
+          document.getElementById("email-visibility").checked = user.contactVisibility?.email || false;
         } else {
           alert("Failed to fetch profile details.");
         }
