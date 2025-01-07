@@ -1,50 +1,44 @@
 const express = require("express");
 const router = express.Router();
 const Group = require("../models/group");
+const User = require("../models/user");
 
-// Update group details
-router.put("/:id", async (req, res) => {
+// Fetch group details
+router.get("/:id", async (req, res) => {
   try {
-    const { activityType, location, schedule } = req.body;
-    const updatedGroup = await Group.findByIdAndUpdate(
-      req.params.id,
-      { activityType, location, schedule },
-      { new: true }
-    );
+    const group = await Group.findById(req.params.id)
+      .populate("members") // Populate member details
+      .populate("organizer", "name email phone"); // Populate organizer details
 
-    if (!updatedGroup) return res.status(404).json({ message: "Group not found!" });
-    res.json({ success: true, message: "Group updated successfully!", group: updatedGroup });
+    if (!group) {
+      return res.status(404).json({ message: "Group not found!" });
+    }
+
+    res.json({
+      name: group.name,
+      activityType: group.activityType,
+      schedule: group.schedule,
+      location: group.location,
+      description: group.description,
+      organizer: group.organizer,
+      members: group.members,
+    });
   } catch (error) {
-    console.error("Error updating group:", error);
+    console.error("Error fetching group details:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-// Fetch join requests
-router.get("/requests", async (req, res) => {
+// Join group request
+router.post("/join", async (req, res) => {
   try {
-    // Dummy data for join requests
-    const requests = [
-      { _id: "1", username: "JohnDoe", groupName: "Yoga Group" },
-      { _id: "2", username: "JaneDoe", groupName: "Running Club" },
-    ];
-    res.json(requests);
-  } catch (error) {
-    console.error("Error fetching join requests:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
+    const { groupId } = req.body;
+    const userId = req.user.id; // Assumes user authentication middleware
 
-// Handle join requests
-router.post("/requests/:id", async (req, res) => {
-  const { approve } = req.body;
-
-  try {
-    // Process the request based on the `approve` value
-    // Example logic: Update group membership
-    res.json({ success: true, message: `Request ${approve ? "approved" : "rejected"}!` });
+    // Add logic to handle join requests (e.g., send notification to organizer)
+    res.json({ message: "Join request sent successfully!" });
   } catch (error) {
-    console.error("Error processing join request:", error);
+    console.error("Error handling join request:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
