@@ -75,6 +75,7 @@ router.post("/", upload.single("organizerPicture"), async (req, res) => {
         email,
         emailVisibility: emailVisibility === "true",
       },
+      organizer: req.user.id, // Associate the logged-in user as the organizer
     });
 
     await group.save();
@@ -84,6 +85,7 @@ router.post("/", upload.single("organizerPicture"), async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 
 // Fetch group details with organizer info
 router.get("/:id", async (req, res) => {
