@@ -48,14 +48,16 @@ router.put("/", authenticateToken, async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
-        fitnessGoals: fitnessGoals || "Not set",
-        workoutPreferences: workoutPreferences || "Not set",
-        availability: availability || "Not set",
-        about: about || "Not set",
-        fitnessHistory: Array.isArray(fitnessHistory) ? fitnessHistory : [],
-        phone: phone || "Not set",
-        email: email || "Not set",
-        contactVisibility: contactVisibility || { phone: false, email: false },
+        username: user.username,
+      profilePicture: user.profilePicture,
+      fitnessGoals: user.fitnessGoals,
+      workoutPreferences: user.workoutPreferences,
+      availability: user.availability,
+      about: user.about,
+      fitnessHistory: user.fitnessHistory,
+      phone: user.contactVisibility?.phone ? user.phone : null,
+      email: user.contactVisibility?.email ? user.email : null,
+      contactVisibility: user.contactVisibility,
       },
       { new: true, runValidators: true }
     );
