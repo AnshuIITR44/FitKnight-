@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,117 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buddy Dashboard - FitKnight</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Circular Profile Menu */
-    .profile-menu {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      background-color: #444;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .profile-menu img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .menu-content {
-      display: none;
-      position: absolute;
-      top: 60px;
-      right: 0;
-      background-color: #333;
-      border-radius: 8px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-    }
-
-    .menu-content a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      padding: 15px 20px;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-    }
-
-    .menu-content a:hover {
-      background-color: #575757;
-    }
-
-    /* Show dropdown when active */
-    .profile-menu.active .menu-content {
-      display: block;
-    }
-
-    /* General Layout */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #222;
-      color: white;
-    }
-
-    header {
-      text-align: center;
-      padding: 20px;
-      background-color: #444;
-      border-bottom: 2px solid #575757;
-    }
-
-    main {
-      padding: 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background-color: #444;
-      border-top: 2px solid #575757;
-    }
-  </style>
 </head>
 <body>
-  <!-- Circular Profile Menu -->
-  <div class="profile-menu" id="profileMenu">
-    <img src="uploads/default-profile.jpg" alt="Profile Picture">
-    <div class="menu-content">
-      <a href="profile.html">Profile</a>
-      <a href="index.html">Logout</a>
-    </div>
-  </div>
-
   <header>
     <h1>Buddy Dashboard</h1>
   </header>
+
   <main>
-    <p>Welcome to the Buddy Dashboard!</p>
-    <p>Here you can manage your buddy interactions and track progress.</p>
-    <!-- Add your dashboard content here -->
+    <!-- Filters Section -->
+    <section>
+      <h2>Filters</h2>
+      <form id="filter-form">
+        <label for="activity-type">Activity Type:</label>
+        <input type="text" id="activity-type" placeholder="e.g., Yoga, Gym">
+        
+        <label for="skill-level">Skill Level:</label>
+        <input type="text" id="skill-level" placeholder="e.g., Beginner, Advanced">
+        
+        <label for="location">Location:</label>
+        <input type="text" id="location" placeholder="Enter your location">
+        
+        <button type="submit">Apply Filters</button>
+      </form>
+    </section>
+
+    <!-- Recommended Buddies Section -->
+    <section>
+      <h2>Recommended Buddies</h2>
+      <div id="buddy-list">
+        <!-- Buddies will be dynamically inserted here -->
+      </div>
+    </section>
+
+    <!-- Available Groups Section -->
+    <section>
+      <h2>Available Fitness Groups</h2>
+      <div id="group-list">
+        <!-- Groups will be dynamically inserted here -->
+      </div>
+    </section>
   </main>
 
-
-  <script>
-    // Toggle dropdown on click
-    const profileMenu = document.getElementById("profileMenu");
-    document.addEventListener("click", (event) => {
-      // Check if the click is inside the profile menu
-      if (profileMenu.contains(event.target)) {
-        profileMenu.classList.toggle("active");
-      } else {
-        profileMenu.classList.remove("active");
-      }
-    });
-  </script>
+  <script src="buddy-dashboard.js"></script>
 </body>
 </html>
