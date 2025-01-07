@@ -10,10 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("group-create-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Validate form fields
+    const groupName = document.getElementById("group-name").value.trim();
+    const groupActivities = document.getElementById("group-activities").value.trim();
+
+    if (!groupName || !groupActivities) {
+      alert("Group name and activities are required!");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("groupName", document.getElementById("group-name").value); // Group Name
+    formData.append("groupName", groupName); // Group Name
     formData.append("organizerPicture", document.getElementById("organizer-picture").files[0]); // Profile Picture
-    formData.append("groupActivities", document.getElementById("group-activities").value); // Group Activities
+    formData.append("groupActivities", groupActivities); // Group Activities
     formData.append("dailyGoals", document.getElementById("daily-goals").value); // Daily Goals
     formData.append("phone", document.getElementById("phone").value); // Phone
     formData.append("phoneVisibility", document.getElementById("phone-visibility").checked); // Phone Visibility
