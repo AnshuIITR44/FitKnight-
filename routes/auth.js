@@ -13,9 +13,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Signup Route
+// Signup Route
 router.post("/signup", upload.single("profilePicture"), async (req, res) => {
   try {
-    const { username, password, role, roleDetails } = req.body;
+    const { username, password, role, name } = req.body; // Include name field
     const profilePicture = req.file ? req.file.filename : "default-profile.jpg";
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -23,8 +24,8 @@ router.post("/signup", upload.single("profilePicture"), async (req, res) => {
       username,
       password: hashedPassword,
       role,
+      name, // Save organizer name
       profilePicture,
-      roleDetails: JSON.parse(roleDetails || "{}"),
     });
 
     await newUser.save();
@@ -45,6 +46,7 @@ router.post("/signup", upload.single("profilePicture"), async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 
 // Login Route
 router.post("/login", async (req, res) => {
