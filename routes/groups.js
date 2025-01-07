@@ -1,7 +1,15 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const Group = require("../models/group");
 const User = require("../models/user");
+
+// Configure multer for uploading organizer profile pictures
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
+});
+const upload = multer({ storage });
 
 // Fetch group details
 router.get("/:id", async (req, res) => {
