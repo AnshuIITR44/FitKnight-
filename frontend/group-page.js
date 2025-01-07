@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("location").textContent = group.location;
     document.getElementById("description").textContent = group.description;
 
+    // Display organizer details
     document.getElementById("organizer-name").textContent = group.organizer.name;
     document.getElementById("organizer-email").textContent = group.organizer.email;
     document.getElementById("organizer-phone").textContent = group.organizer.phone;
