@@ -85,5 +85,28 @@ router.post("/", upload.single("organizerPicture"), async (req, res) => {
   }
 });
 
+// Fetch group details with organizer info
+router.get("/:id", async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id).populate("organizer", "name email phone");
+
+    if (!group) {
+      return res.status(404).json({ message: "Group not found!" });
+    }
+
+    res.json({
+      name: group.name,
+      activityType: group.activityType,
+      schedule: group.schedule,
+      location: group.location,
+      description: group.description,
+      organizer: group.organizer, // Include organizer details
+      members: group.members, // Include group members
+    });
+  } catch (error) {
+    console.error("Error fetching group details:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 module.exports = router;
