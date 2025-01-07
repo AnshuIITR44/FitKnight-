@@ -100,3 +100,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       div.innerHTML = `
         <p><strong>Name:</strong> ${buddy.name}</p>
         <p><strong>Hobby:</strong> ${buddy.hobby}</p>
+        <p><strong>Goals:</strong> ${buddy.fitnessGoals}</p>
+      `;
+      buddyResults.appendChild(div);
+    });
+  });
+
+  // Initial fetches
+  await fetchGroups();
+  await fetchJoinRequests();
+});
