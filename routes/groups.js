@@ -43,4 +43,38 @@ router.post("/join", async (req, res) => {
   }
 });
 
+// Create a new group
+router.post("/", upload.single("organizerPicture"), async (req, res) => {
+  try {
+    const {
+      organizerName,
+      groupActivities,
+      dailyGoals,
+      phone,
+      phoneVisibility,
+      email,
+      emailVisibility,
+    } = req.body;
+
+    const group = new Group({
+      name: organizerName,
+      activities: groupActivities,
+      dailyGoals,
+      organizerPicture: req.file ? req.file.filename : "default-profile.jpg",
+      contactDetails: {
+        phone,
+        phoneVisibility: phoneVisibility === "true",
+        email,
+        emailVisibility: emailVisibility === "true",
+      },
+    });
+
+    await group.save();
+    res.status(201).json({ success: true, message: "Group created successfully!", group });
+  } catch (error) {
+    console.error("Error creating group:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
 module.exports = router;
