@@ -20,12 +20,16 @@
     <section id="group-create-form-section">
       <h2>Group Profile</h2>
       <form id="group-create-form" enctype="multipart/form-data">
+        <!-- Group Name -->
+        <div>
+          <h3>Group Information</h3>
+          <label for="group-name">Group Name:</label>
+          <input type="text" id="group-name" placeholder="Enter Group Name" required>
+        </div>
+
         <!-- Organizer Details -->
         <div>
-          <h3>Personal Information</h3>
-          <label for="organizer-name">Name:</label>
-          <input type="text" id="organizer-name" placeholder="Organizer's Name" required>
-          
+          <h3>Organizer Information</h3>
           <label for="organizer-picture">Profile Picture:</label>
           <input type="file" id="organizer-picture" accept="image/*">
         </div>
