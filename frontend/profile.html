@@ -89,18 +89,8 @@
       gap: 15px;
     }
 
-    button {
-      background-color: #444;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #575757;
+    .privacy-toggle {
+      margin-left: 10px;
     }
 
     footer {
@@ -117,29 +107,56 @@
 <body>
   <div class="side-menu">
     <a href="buddy-dashboard.html">Dashboard</a>
-    <a href=index.html>Logout</a>
+    <a href="index.html">Logout</a>
   </div>
 
   <header>
     <h1>My Profile</h1>
   </header>
   <main>
-   <section class="card" id="profile-container">
-  <!-- Profile Picture -->
-  <div class="profile-picture-wrapper">
-    <img id="profile-picture" src="uploads/default-profile.jpg" alt="Profile Picture">
-  </div>
+    <section class="card" id="profile-container">
+      <!-- Profile Picture -->
+      <div class="profile-picture-wrapper">
+        <img id="profile-picture" src="uploads/default-profile.jpg" alt="Profile Picture">
+      </div>
       <div id="profile-details">
         <h2>User Details</h2>
         <p><strong>Username:</strong> <span id="username">Loading...</span></p>
         <p><strong>Fitness Goals:</strong> <span id="fitness-goals">Not set</span></p>
         <p><strong>Workout Preferences:</strong> <span id="workout-preferences">Not set</span></p>
         <p><strong>Availability:</strong> <span id="availability">Not set</span></p>
-      </div>
-      <div id="profile-actions">
-        <button id="edit-profile-btn">Edit Profile</button>
+        <p><strong>About:</strong> <span id="about">Loading...</span></p>
       </div>
     </section>
+
+    <!-- Fitness History Section -->
+    <section class="card">
+      <h2>Fitness History</h2>
+      <ul id="fitness-history">
+        <li>Loading...</li>
+      </ul>
+    </section>
+
+    <!-- Contact Details Section -->
+    <section class="card">
+      <h2>Contact Details</h2>
+      <p>
+        <strong>Phone:</strong> <span id="phone">Not set</span>
+        <label>
+          <input type="checkbox" id="phone-visibility" class="privacy-toggle" disabled> Public
+        </label>
+      </p>
+      <p>
+        <strong>Email:</strong> <span id="email">Not set</span>
+        <label>
+          <input type="checkbox" id="email-visibility" class="privacy-toggle" disabled> Public
+        </label>
+      </p>
+    </section>
+
+    <div id="profile-actions">
+      <button id="edit-profile-btn">Edit Profile</button>
+    </div>
   </main>
   <footer>
     <p>&copy; 2025 FitKnight. All Rights Reserved.</p>
@@ -165,6 +182,20 @@
           document.getElementById("fitness-goals").innerText = user.fitnessGoals || "Not set";
           document.getElementById("workout-preferences").innerText = user.workoutPreferences || "Not set";
           document.getElementById("availability").innerText = user.availability || "Not set";
+          document.getElementById("about").innerText = user.about || "Not set";
+
+          // Update fitness history
+          const fitnessHistory = user.fitnessHistory || [];
+          const historyList = document.getElementById("fitness-history");
+          historyList.innerHTML = fitnessHistory.length
+            ? fitnessHistory.map((item) => `<li>${item}</li>`).join("")
+            : "<li>No fitness milestones yet.</li>";
+
+          // Update contact details
+          document.getElementById("phone").innerText = user.phone || "Not set";
+          document.getElementById("email").innerText = user.email || "Not set";
+          document.getElementById("phone-visibility").checked = user.contactVisibility?.phone || false;
+          document.getElementById("email-visibility").checked = user.contactVisibility?.email || false;
         } else {
           alert("Failed to fetch profile details.");
         }
