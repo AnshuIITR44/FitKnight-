@@ -194,6 +194,27 @@
     <p>&copy; 2025 FitKnight. All Rights Reserved.</p>
   </footer>
   <script>
+    // Dropdown toggle logic
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const dropdownToggle = dropdownMenu.querySelector(".dropdown-toggle");
+
+    dropdownToggle.addEventListener("click", () => {
+      dropdownMenu.classList.toggle("active");
+    });
+
+    // Logout logic
+    document.getElementById("logout").addEventListener("click", () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+    });
+
+    // Close dropdown if clicked outside
+    document.addEventListener("click", (event) => {
+      if (!dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.remove("active");
+      }
+    });
+
     document.addEventListener("DOMContentLoaded", async () => {
       const token = localStorage.getItem("token");
       if (!token) {
