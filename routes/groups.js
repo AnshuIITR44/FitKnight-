@@ -55,7 +55,7 @@ router.post("/join", async (req, res) => {
 router.post("/", upload.single("organizerPicture"), async (req, res) => {
   try {
     const {
-      organizerName,
+      groupName,
       groupActivities,
       dailyGoals,
       phone,
@@ -65,7 +65,7 @@ router.post("/", upload.single("organizerPicture"), async (req, res) => {
     } = req.body;
 
     const group = new Group({
-      name: organizerName,
+      name: groupName, // Save group name
       activities: groupActivities,
       dailyGoals,
       organizerPicture: req.file ? req.file.filename : "default-profile.jpg",
@@ -84,5 +84,6 @@ router.post("/", upload.single("organizerPicture"), async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 
 module.exports = router;
